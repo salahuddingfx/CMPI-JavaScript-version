@@ -17,7 +17,7 @@ const NotFound = () => (
       className="glass dark:glass-dark p-12 md:p-20 rounded-[3rem] max-w-2xl w-full border border-white/20 dark:border-white/10"
     >
       <div className="relative inline-block mb-8">
-        <h1 className="text-8xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary drop-shadow-sm">
+        <h1 className="text-8xl md:text-9xl font-black text-primary drop-shadow-sm">
           404
         </h1>
         <div className="absolute -top-4 -right-4 w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary font-bold shadow-lg rotate-12">
