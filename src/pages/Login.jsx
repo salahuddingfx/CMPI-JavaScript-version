@@ -1,22 +1,31 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, ArrowRight, Github, Globe } from 'lucide-react';
 import SEO from '@/components/SEO';
 import PageTransition from '@/components/PageTransition';
 import { useAuth } from '@/contexts/AuthContext';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const loginSchema = z.object({
+  email: z.string().min(1, "Email is required").email("Invalid email format"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
   const { login } = useAuth();
   const navigate = useNavigate();
+  
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(loginSchema)
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
     // Simulate API Login
     login({ 
       name: 'Hridoy Ahmed', 
-      email: formData.email, 
+      email: data.email, 
       role: 'Computer Science Student',
       avatar: 'https://i.pravatar.cc/150?u=dashboard'
     });
@@ -47,19 +56,19 @@ const Login = () => {
             <p className="text-slate-500 font-medium">Please enter your details to sign in</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-2">
               <label className="text-sm font-bold text-slate-700 ml-1">Email Address</label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                 <input 
                   type="email" 
-                  required
-                  className="w-full pl-12 pr-4 py-4 bg-slate-50 border-transparent border-2 focus:border-primary focus:bg-white rounded-2xl outline-none transition-all font-medium"
+                  {...register("email")}
+                  className={`w-full pl-12 pr-4 py-4 bg-slate-50 border-transparent border-2 focus:border-primary focus:bg-white rounded-2xl outline-none transition-all font-medium ${errors.email ? 'border-red-500 focus:border-red-500 bg-red-50' : ''}`}
                   placeholder="name@example.com"
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
                 />
               </div>
+              {errors.email && <p className="text-red-500 text-xs font-bold ml-1">{errors.email.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -71,12 +80,12 @@ const Login = () => {
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                 <input 
                   type="password" 
-                  required
-                  className="w-full pl-12 pr-4 py-4 bg-slate-50 border-transparent border-2 focus:border-primary focus:bg-white rounded-2xl outline-none transition-all font-medium"
+                  {...register("password")}
+                  className={`w-full pl-12 pr-4 py-4 bg-slate-50 border-transparent border-2 focus:border-primary focus:bg-white rounded-2xl outline-none transition-all font-medium ${errors.password ? 'border-red-500 focus:border-red-500 bg-red-50' : ''}`}
                   placeholder="••••••••"
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
                 />
               </div>
+              {errors.password && <p className="text-red-500 text-xs font-bold ml-1">{errors.password.message}</p>}
             </div>
 
             <button 
