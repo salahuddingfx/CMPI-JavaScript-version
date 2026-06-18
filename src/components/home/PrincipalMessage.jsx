@@ -32,7 +32,7 @@ const PrincipalMessage = () => {
                     alt="Principal" 
                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-slate-900/20" />
                 </div>
 
                 <div className="absolute -bottom-4 sm:-bottom-6 -right-4 sm:-right-6 bg-secondary p-4 sm:p-5 rounded-[1.25rem] sm:rounded-[1.5rem] shadow-2xl hidden md:block">
