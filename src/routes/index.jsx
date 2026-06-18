@@ -1,68 +1,88 @@
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import MainLayout from '@/layouts/MainLayout';
-import Home from '@/pages/Home';
-import About from '@/pages/About';
-import Academics from '@/pages/Academics';
-import DepartmentDetail from '@/pages/DepartmentDetail';
-import Faculty from '@/pages/Faculty';
-import NoticeBoard from '@/pages/NoticeBoard';
-import Events from '@/pages/Events';
-import Gallery from '@/pages/Gallery';
-import Blog from '@/pages/Blog';
-import Admission from '@/pages/Admission';
-import StudentCorner from '@/pages/StudentCorner';
-import Contact from '@/pages/Contact';
-import NotFound from '@/pages/NotFound';
-import Login from '@/pages/Login';
-import Register from '@/pages/Register';
-import VirtualTour from '@/pages/VirtualTour';
-import DashboardLayout from '@/layouts/DashboardLayout';
-import Dashboard from '@/pages/Dashboard';
-import ProtectedRoute from '@/components/ProtectedRoute';
+import Loader from '@/components/Loader';
+
+// ── Layouts ───────────────────────────────────────────────────────────────────
+const MainLayout    = lazy(() => import('@/layouts/MainLayout'));
+const DashboardLayout = lazy(() => import('@/layouts/DashboardLayout'));
+
+// ── Public Pages ──────────────────────────────────────────────────────────────
+const Home          = lazy(() => import('@/pages/Home'));
+const About         = lazy(() => import('@/pages/About'));
+const Academics     = lazy(() => import('@/pages/Academics'));
+const DepartmentDetail = lazy(() => import('@/pages/DepartmentDetail'));
+const Faculty       = lazy(() => import('@/pages/Faculty'));
+const NoticeBoard   = lazy(() => import('@/pages/NoticeBoard'));
+const Events        = lazy(() => import('@/pages/Events'));
+const Gallery       = lazy(() => import('@/pages/Gallery'));
+const Blog          = lazy(() => import('@/pages/Blog'));
+const Admission     = lazy(() => import('@/pages/Admission'));
+const StudentCorner = lazy(() => import('@/pages/StudentCorner'));
+const Contact       = lazy(() => import('@/pages/Contact'));
+const VirtualTour   = lazy(() => import('@/pages/VirtualTour'));
+const Login         = lazy(() => import('@/pages/Login'));
+const Register      = lazy(() => import('@/pages/Register'));
+const NotFound      = lazy(() => import('@/pages/NotFound'));
+
+// ── Auth Guard ────────────────────────────────────────────────────────────────
+const ProtectedRoute = lazy(() => import('@/components/ProtectedRoute'));
+
+// ── Dashboard Sub-pages ───────────────────────────────────────────────────────
+const Dashboard     = lazy(() => import('@/pages/Dashboard'));
+const Courses       = lazy(() => import('@/pages/dashboard/Courses'));
+const Results       = lazy(() => import('@/pages/dashboard/Results'));
+const Profile       = lazy(() => import('@/pages/dashboard/Profile'));
+const Settings      = lazy(() => import('@/pages/dashboard/Settings'));
+
+// ── Suspense wrapper ──────────────────────────────────────────────────────────
+const withSuspense = (Component) => (
+  <Suspense fallback={<Loader />}>
+    <Component />
+  </Suspense>
+);
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout />,
+    element: <Suspense fallback={<Loader />}><MainLayout /></Suspense>,
     children: [
-      { index: true, element: <Home /> },
-      { path: 'about', element: <About /> },
-      { path: 'academics', element: <Academics /> },
-      { path: 'academics/:id', element: <DepartmentDetail /> },
-      { path: 'faculty', element: <Faculty /> },
-      { path: 'notice-board', element: <NoticeBoard /> },
-      { path: 'events', element: <Events /> },
-      { path: 'gallery', element: <Gallery /> },
-      { path: 'blog', element: <Blog /> },
-      { path: 'admission', element: <Admission /> },
-      { path: 'student-corner', element: <StudentCorner /> },
-      { path: 'contact', element: <Contact /> },
-      { path: 'virtual-tour', element: <VirtualTour /> },
-      { path: 'login', element: <Login /> },
-      { path: 'register', element: <Register /> },
+      { index: true,                element: withSuspense(Home) },
+      { path: 'about',              element: withSuspense(About) },
+      { path: 'academics',          element: withSuspense(Academics) },
+      { path: 'academics/:id',      element: withSuspense(DepartmentDetail) },
+      { path: 'faculty',            element: withSuspense(Faculty) },
+      { path: 'notice-board',       element: withSuspense(NoticeBoard) },
+      { path: 'events',             element: withSuspense(Events) },
+      { path: 'gallery',            element: withSuspense(Gallery) },
+      { path: 'blog',               element: withSuspense(Blog) },
+      { path: 'admission',          element: withSuspense(Admission) },
+      { path: 'student-corner',     element: withSuspense(StudentCorner) },
+      { path: 'contact',            element: withSuspense(Contact) },
+      { path: 'virtual-tour',       element: withSuspense(VirtualTour) },
+      { path: 'login',              element: withSuspense(Login) },
+      { path: 'register',           element: withSuspense(Register) },
     ],
   },
   {
     path: '/dashboard',
-    element: <ProtectedRoute />,
+    element: <Suspense fallback={<Loader />}><ProtectedRoute /></Suspense>,
     children: [
       {
         path: '',
-        element: <DashboardLayout />,
+        element: <Suspense fallback={<Loader />}><DashboardLayout /></Suspense>,
         children: [
-          { index: true, element: <Dashboard /> },
-          // Placeholders for other dashboard routes
-          { path: 'courses', element: <div className="p-8 text-2xl font-bold">My Courses Content</div> },
-          { path: 'results', element: <div className="p-8 text-2xl font-bold">Results Content</div> },
-          { path: 'profile', element: <div className="p-8 text-2xl font-bold">Profile Content</div> },
-          { path: 'settings', element: <div className="p-8 text-2xl font-bold">Settings Content</div> },
-        ]
-      }
-    ]
+          { index: true,            element: withSuspense(Dashboard) },
+          { path: 'courses',        element: withSuspense(Courses) },
+          { path: 'results',        element: withSuspense(Results) },
+          { path: 'profile',        element: withSuspense(Profile) },
+          { path: 'settings',       element: withSuspense(Settings) },
+        ],
+      },
+    ],
   },
   {
     path: '*',
-    element: <NotFound />,
+    element: withSuspense(NotFound),
   },
 ]);
 
