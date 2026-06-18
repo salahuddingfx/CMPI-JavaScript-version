@@ -10,13 +10,14 @@ const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'About', path: '/about' },
   { name: 'Academics', path: '/academics', dropdown: [
+    { name: 'All Departments', path: '/academics' },
     { name: 'Civil Technology', path: '/academics/civil' },
     { name: 'Computer Science', path: '/academics/computer-science' },
     { name: 'Electrical Technology', path: '/academics/electrical' },
+    { name: 'Faculty', path: '/faculty' },
   ]},
-  { name: 'Faculty', path: '/faculty' },
   { name: 'Notice Board', path: '/notice-board' },
-  { name: 'Admission', path: '/admission' },
+  { name: 'Student Corner', path: '/student-corner' },
   { name: 'Contact', path: '/contact' },
 ];
 
