@@ -1,16 +1,36 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, ArrowRight, CheckCircle2 } from 'lucide-react';
 import SEO from '@/components/SEO';
 import PageTransition from '@/components/PageTransition';
+import { useAuth } from '@/contexts/AuthContext';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const registerSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().min(1, "Email is required").email("Invalid email format"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
 
 const Register = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Registration attempt:', formData);
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(registerSchema)
+  });
+
+  const onSubmit = (data) => {
+    // Simulate API Register & Login
+    login({ 
+      name: data.name, 
+      email: data.email, 
+      role: 'New Student',
+      avatar: 'https://i.pravatar.cc/150?u=newuser'
+    });
+    navigate('/dashboard');
   };
 
   return (
@@ -67,19 +87,19 @@ const Register = () => {
               <p className="text-slate-500 font-medium">Join our community today</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-700 ml-1">Full Name</label>
                 <div className="relative">
                   <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                   <input 
                     type="text" 
-                    required
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border-transparent border-2 focus:border-primary focus:bg-white rounded-2xl outline-none transition-all font-medium"
+                    {...register("name")}
+                    className={`w-full pl-12 pr-4 py-4 bg-slate-50 border-transparent border-2 focus:border-primary focus:bg-white rounded-2xl outline-none transition-all font-medium ${errors.name ? 'border-red-500 focus:border-red-500 bg-red-50' : ''}`}
                     placeholder="John Doe"
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
                   />
                 </div>
+                {errors.name && <p className="text-red-500 text-xs font-bold ml-1">{errors.name.message}</p>}
               </div>
 
               <div className="space-y-2">
@@ -88,12 +108,12 @@ const Register = () => {
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                   <input 
                     type="email" 
-                    required
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border-transparent border-2 focus:border-primary focus:bg-white rounded-2xl outline-none transition-all font-medium"
+                    {...register("email")}
+                    className={`w-full pl-12 pr-4 py-4 bg-slate-50 border-transparent border-2 focus:border-primary focus:bg-white rounded-2xl outline-none transition-all font-medium ${errors.email ? 'border-red-500 focus:border-red-500 bg-red-50' : ''}`}
                     placeholder="name@example.com"
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
                   />
                 </div>
+                {errors.email && <p className="text-red-500 text-xs font-bold ml-1">{errors.email.message}</p>}
               </div>
 
               <div className="space-y-2">
@@ -102,12 +122,12 @@ const Register = () => {
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                   <input 
                     type="password" 
-                    required
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border-transparent border-2 focus:border-primary focus:bg-white rounded-2xl outline-none transition-all font-medium"
+                    {...register("password")}
+                    className={`w-full pl-12 pr-4 py-4 bg-slate-50 border-transparent border-2 focus:border-primary focus:bg-white rounded-2xl outline-none transition-all font-medium ${errors.password ? 'border-red-500 focus:border-red-500 bg-red-50' : ''}`}
                     placeholder="••••••••"
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
                   />
                 </div>
+                {errors.password && <p className="text-red-500 text-xs font-bold ml-1">{errors.password.message}</p>}
               </div>
 
               <button 
