@@ -87,10 +87,6 @@
   .glass-dark {
     @apply bg-slate-900/70 backdrop-blur-xl border border-white/10 shadow-2xl;
   }
-  
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-br from-primary via-primary to-secondary;
-  }
 
   .smooth-transition {
     @apply transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1);
