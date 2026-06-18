@@ -115,6 +115,17 @@ const Navbar = () => {
           </button>
 
           <div className="flex items-center gap-3 ml-2">
+            <a 
+              href="https://mail.cmpi.edu.bd" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className={cn(
+                "px-4 py-2 text-sm font-bold transition-all rounded-xl border-2",
+                scrolled ? "border-slate-200 text-slate-600 hover:border-primary hover:text-primary" : "border-white/20 text-white hover:bg-white/10 hover:border-white/40"
+              )}
+            >
+              Webmail
+            </a>
             {user ? (
               <Link 
                 to="/dashboard"
