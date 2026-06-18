@@ -73,7 +73,7 @@ const Hero = () => {
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+            <div className="absolute inset-0 bg-black/30" />
           </div>
 
           {/* Content Overlay */}
