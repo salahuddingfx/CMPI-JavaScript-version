@@ -79,7 +79,7 @@ const Faculty = () => {
                       alt={member.name} 
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                       <a href={`mailto:${member.email}`} className="text-white flex items-center gap-2 hover:text-secondary">
                         <Mail className="w-5 h-5" /> Send Email
                       </a>
