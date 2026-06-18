@@ -4,7 +4,26 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cmpi-client</title>
+    <title>CMPI — Chittagong Model Polytechnic Institute</title>
+    <meta name="description" content="Official website of Chittagong Model Polytechnic Institute — quality technical education since 1995." />
+    <!--
+      Theme flash prevention:
+      Runs synchronously BEFORE React hydrates so the correct class is applied
+      before the first paint, preventing a light/dark flash.
+    -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var theme = stored === 'dark' || stored === 'light'
+            ? stored
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          document.documentElement.classList.add(theme);
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
