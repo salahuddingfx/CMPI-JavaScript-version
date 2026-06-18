@@ -1,25 +1,26 @@
-import { useState } from 'react';
 import PageTransition from '@/components/PageTransition';
 import SEO from '@/components/SEO';
 import { Mail, Phone, MapPin, Send, Globe } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().min(1, "Email is required").email("Invalid email format"),
+  subject: z.string().min(5, "Subject must be at least 5 characters"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    resolver: zodResolver(contactSchema)
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
+  const onSubmit = (data) => {
+    console.log('Form submitted:', data);
     alert('Thank you for your message! We will get back to you soon.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    reset();
   };
 
   return (
@@ -94,31 +95,27 @@ const Contact = () => {
             <div className="lg:col-span-2">
               <div className="bg-slate-50 p-8 md:p-12 rounded-3xl border border-slate-100">
                 <h2 className="text-2xl font-bold text-slate-900 mb-8">Send a Message</h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-semibold text-slate-700">Full Name</label>
                       <input 
                         type="text" 
-                        name="name"
-                        required
-                        className="w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary outline-none transition-all"
+                        {...register("name")}
+                        className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${errors.name ? 'border-red-500 bg-red-50' : 'focus:ring-2 focus:ring-primary'}`}
                         placeholder="John Doe"
-                        value={formData.name}
-                        onChange={handleChange}
                       />
+                      {errors.name && <p className="text-red-500 text-xs font-bold">{errors.name.message}</p>}
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-semibold text-slate-700">Email Address</label>
                       <input 
                         type="email" 
-                        name="email"
-                        required
-                        className="w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary outline-none transition-all"
+                        {...register("email")}
+                        className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${errors.email ? 'border-red-500 bg-red-50' : 'focus:ring-2 focus:ring-primary'}`}
                         placeholder="john@example.com"
-                        value={formData.email}
-                        onChange={handleChange}
                       />
+                      {errors.email && <p className="text-red-500 text-xs font-bold">{errors.email.message}</p>}
                     </div>
                   </div>
                   
@@ -126,26 +123,22 @@ const Contact = () => {
                     <label className="text-sm font-semibold text-slate-700">Subject</label>
                     <input 
                       type="text" 
-                      name="subject"
-                      required
-                      className="w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary outline-none transition-all"
+                      {...register("subject")}
+                      className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${errors.subject ? 'border-red-500 bg-red-50' : 'focus:ring-2 focus:ring-primary'}`}
                       placeholder="Admission Inquiry"
-                      value={formData.subject}
-                      onChange={handleChange}
                     />
+                    {errors.subject && <p className="text-red-500 text-xs font-bold">{errors.subject.message}</p>}
                   </div>
                   
                   <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-700">Your Message</label>
                     <textarea 
-                      name="message"
-                      required
+                      {...register("message")}
                       rows="5"
-                      className="w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary outline-none transition-all resize-none"
+                      className={`w-full px-4 py-3 rounded-xl border outline-none transition-all resize-none ${errors.message ? 'border-red-500 bg-red-50' : 'focus:ring-2 focus:ring-primary'}`}
                       placeholder="Tell us how we can help..."
-                      value={formData.message}
-                      onChange={handleChange}
                     ></textarea>
+                    {errors.message && <p className="text-red-500 text-xs font-bold">{errors.message.message}</p>}
                   </div>
                   
                   <button type="submit" className="w-full py-4 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
