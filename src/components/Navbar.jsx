@@ -44,7 +44,7 @@ const Navbar = () => {
       "fixed top-0 left-0 w-full z-50 transition-all duration-500",
       scrolled 
         ? "bg-white dark:bg-slate-950 shadow-xl py-3 dark:border-b dark:border-slate-800" 
-        : "bg-gradient-to-b from-black/60 to-transparent py-5"
+        : "bg-black/30 backdrop-blur-sm py-5"
     )}>
       <div className="container mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
