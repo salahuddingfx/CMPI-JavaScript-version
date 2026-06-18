@@ -28,7 +28,7 @@ const DepartmentDetail = () => {
       <section className="relative h-[50vh] flex items-center bg-slate-900">
         <div className="absolute inset-0 z-0">
           <img src={department.image} alt={department.name} className="w-full h-full object-cover opacity-30" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent" />
+          <div className="absolute inset-0 bg-slate-900/70" />
         </div>
         <div className="container mx-auto px-4 z-10">
           <Link to="/academics" className="text-white/60 hover:text-secondary mb-6 inline-flex items-center gap-2 transition-colors">
