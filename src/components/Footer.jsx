@@ -39,6 +39,7 @@ const Footer = () => {
               <li><Link to="/admission" className="hover:text-primary transition-colors">Admission Information</Link></li>
               <li><Link to="/faculty" className="hover:text-primary transition-colors">Faculty Members</Link></li>
               <li><Link to="/notice-board" className="hover:text-primary transition-colors">Latest Notices</Link></li>
+              <li><a href="https://mail.cmpi.edu.bd" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors font-bold text-secondary">Webmail Login</a></li>
               <li><Link to="/contact" className="hover:text-primary transition-colors">Contact Us</Link></li>
             </ul>
           </div>
