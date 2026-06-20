@@ -47,9 +47,7 @@ const Login = () => {
         >
           <div className="text-center mb-10">
             <Link to="/" className="inline-flex items-center gap-2 mb-6 group">
-              <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-secondary font-black text-2xl shadow-lg shadow-primary/20 group-hover:rotate-12 transition-transform">
-                C
-              </div>
+              <img src="/CMPI.png" alt="CMPI Logo" className="w-12 h-12 object-contain group-hover:rotate-12 transition-transform" />
               <span className="font-black text-slate-900 dark:text-white text-2xl tracking-tighter">CMPI</span>
             </Link>
             <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Welcome Back</h1>
