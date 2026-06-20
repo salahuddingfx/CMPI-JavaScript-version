@@ -11,9 +11,7 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-secondary font-bold text-xl">
-                C
-              </div>
+              <img src="/CMPI.png" alt="CMPI Logo" className="w-10 h-10 object-contain" />
               <span className="font-bold text-white text-xl">CMPI</span>
             </div>
             <p className="text-sm leading-relaxed mb-6">

@@ -50,9 +50,7 @@ const Navbar = () => {
       <div className="container mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-secondary font-black text-2xl shadow-lg shadow-primary/20 group-hover:rotate-12 transition-transform">
-            C
-          </div>
+          <img src="/CMPI.png" alt="CMPI Logo" className="w-12 h-12 object-contain group-hover:rotate-12 transition-transform" />
           <div className="flex flex-col">
             <span className={cn(
               "font-black leading-tight text-xl tracking-tighter transition-colors duration-500",
