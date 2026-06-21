@@ -1,20 +1,34 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PageTransition from '@/components/PageTransition';
 import SEO from '@/components/SEO';
-import { notices } from '@/data/mockData';
+import { useInstituteContext } from '@/contexts/InstituteDataContext';
+import Loader from '@/components/Loader';
 import { Search, Calendar, Bell, FileText, Filter, ArrowRight } from 'lucide-react';
 
 const NoticeBoard = () => {
+  const { data, loading, error } = useInstituteContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const notices = data?.notices || [];
 
   const categories = ['All', ...new Set(notices.map(n => n.category))];
 
   const filteredNotices = notices.filter(notice => {
-    const matchesSearch = notice.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = notice.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          (notice.details || '').toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || notice.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  if (loading) {
+    return (
+      <div className="flex min-h-[400px] items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <PageTransition>
@@ -83,9 +97,9 @@ const NoticeBoard = () => {
                       {notice.title}
                     </h3>
                   </div>
-                  <button className="flex items-center gap-2 text-primary font-bold text-sm whitespace-nowrap hover:gap-3 transition-all">
+                  <Link to={`/notices/${notice.id}`} className="flex items-center gap-2 text-primary font-bold text-sm whitespace-nowrap hover:gap-3 transition-all">
                     View Details <ArrowRight className="w-4 h-4" />
-                  </button>
+                  </Link>
                 </div>
               ))
             ) : (
