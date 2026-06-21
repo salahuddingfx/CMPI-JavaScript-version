@@ -407,14 +407,6 @@ export const BTEB_SUBJECTS = {
     name: "Electrical & Electronic Measurements-II",
     dept: "Electrical Technology",
   },
-  "26811": { name: "Basic Electronics", dept: "Electrical Technology" },
-  "26833": { name: "Industrial Electronics", dept: "Electrical Technology" },
-  "26842": { name: "Communication Engineering", dept: "Electrical Technology" },
-  "26845": { name: "Digital Electronics", dept: "Electrical Technology" },
-  "26853": {
-    name: "Microprocessor & Microcontroller",
-    dept: "Electrical Technology",
-  },
   "26667": { name: "Programming in C", dept: "Electrical Technology" },
 
   // 2016 Regulation — Electrical Technology (667xx)
