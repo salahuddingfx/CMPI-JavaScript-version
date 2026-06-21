@@ -329,7 +329,7 @@ const Navbar = () => {
                                     <Link
                                       key={sub.name}
                                       to={sub.path}
-                                      className="block rounded-xl px-3 py-2 text-xs font-semibold text-slate-505 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-slate-800 dark:hover:text-white"
+                                      className="block rounded-xl px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-slate-800 dark:hover:text-white"
                                       onClick={() => setIsOpen(false)}
                                     >
                                       {sub.name}
@@ -373,11 +373,11 @@ const Navbar = () => {
                       </div>
                       <div className="min-w-0 flex-1">
                         <p className="text-sm font-black text-slate-900 dark:text-white truncate">{user.name}</p>
-                        <p className="text-xs text-slate-505 truncate">{user.email}</p>
+                        <p className="text-xs text-slate-500 truncate">{user.email}</p>
                       </div>
                     </Link>
                     <button
-                      className="w-full rounded-xl border border-red-205 dark:border-red-950 text-red-600 hover:bg-red-600 hover:text-white dark:text-red-400 dark:hover:bg-red-900 py-2.5 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors"
+                      className="w-full rounded-xl border border-red-200 dark:border-red-950 text-red-600 hover:bg-red-600 hover:text-white dark:text-red-400 dark:hover:bg-red-900 py-2.5 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors"
                       onClick={() => {
                         setIsOpen(false);
                         logout();
