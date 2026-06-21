@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import SectionHeader from "@/components/SectionHeader";
+import { SectionHeader } from "@/components/SectionHeader";
 import { getStudentBills } from "@/services/api";
-import LoadingSkeleton from "@/components/LoadingSkeleton";
+import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import { AlertCircle, CreditCard, CheckCircle } from "lucide-react";
 
 export function Bills() {
