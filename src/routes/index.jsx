@@ -60,6 +60,7 @@ const Courses       = lazy(() => import('@/pages/dashboard/Courses'));
 const ResultsPage   = lazy(() => import('@/pages/dashboard/Results')); // renamed import to avoid conflict with public Results
 const Profile       = lazy(() => import('@/pages/dashboard/Profile'));
 const Settings      = lazy(() => import('@/pages/dashboard/Settings'));
+const Bills         = lazy(() => import('@/pages/dashboard/Bills'));
 const StudentWebmail = lazy(() => import('@/pages/dashboard/StudentWebmail').then(m => ({ default: m.StudentWebmail })));
 
 // ── Suspense wrapper ──────────────────────────────────────────────────────────
@@ -130,6 +131,7 @@ const router = createBrowserRouter([
           { path: 'results',        element: withSuspense(ResultsPage) },
           { path: 'profile',        element: withSuspense(Profile) },
           { path: 'settings',       element: withSuspense(Settings) },
+          { path: 'bills',          element: withSuspense(Bills) },
           { path: 'webmail',        element: withSuspense(StudentWebmail) },
         ],
       },
