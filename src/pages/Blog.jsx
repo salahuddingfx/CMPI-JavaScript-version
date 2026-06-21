@@ -1,10 +1,63 @@
+import { useState, useMemo } from 'react';
 import PageTransition from '@/components/PageTransition';
 import SEO from '@/components/SEO';
-import { blogPosts } from '@/data/mockData';
 import { Calendar, User, ArrowRight, Tag, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useInstituteContext } from '@/contexts/InstituteDataContext';
+import { LoadingSkeleton } from '@/components/LoadingSkeleton';
 
 const Blog = () => {
+  const { data, loading, error } = useInstituteContext();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeCategory, setActiveCategory] = useState('All');
+
+  const blogs = data?.blogs || [];
+
+  // Extract unique categories from backend blog posts
+  const categories = useMemo(() => {
+    const cats = new Set(blogs.map((b) => b.category).filter(Boolean));
+    return ['All', ...Array.from(cats)];
+  }, [blogs]);
+
+  // Filter posts based on active filters
+  const filteredPosts = useMemo(() => {
+    const query = searchTerm.toLowerCase().trim();
+    return blogs.filter((post) => {
+      const matchesCategory = activeCategory === 'All' || post.category === activeCategory;
+      const matchesSearch =
+        post.title?.toLowerCase().includes(query) ||
+        post.excerpt?.toLowerCase().includes(query) ||
+        post.content?.toLowerCase().includes(query);
+      return matchesCategory && matchesSearch;
+    });
+  }, [blogs, activeCategory, searchTerm]);
+
+  // Recent/Popular posts
+  const popularPosts = useMemo(() => {
+    return blogs.slice(0, 3);
+  }, [blogs]);
+
+  if (loading) return <LoadingSkeleton />;
+  if (error || !data) {
+    return (
+      <PageTransition>
+        <div className="container mx-auto px-4 py-20">
+          <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center text-red-700">
+            Unable to load blog articles. Please try again later.
+          </div>
+        </div>
+      </PageTransition>
+    );
+  }
+
+  // Count items per category
+  const categoryCounts = { All: blogs.length };
+  blogs.forEach((b) => {
+    if (b.category) {
+      categoryCounts[b.category] = (categoryCounts[b.category] || 0) + 1;
+    }
+  });
+
   return (
     <PageTransition>
       <SEO title="Blog & News" description="Read the latest news, articles, and updates from CMPI." />
@@ -25,38 +78,55 @@ const Blog = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Blog Grid */}
             <div className="lg:col-span-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {blogPosts.map((post) => (
-                  <article key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border">
-                    <div className="h-56 overflow-hidden relative">
-                      <img 
-                        src={post.image} 
-                        alt={post.title} 
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
-                      />
-                    </div>
-                    <div className="p-8">
-                      <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3.5 h-3.5" /> {post.date}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <User className="w-3.5 h-3.5" /> {post.author}
-                        </span>
+              {filteredPosts.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {filteredPosts.map((post) => (
+                    <article key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border flex flex-col h-full">
+                      <div className="h-56 overflow-hidden relative">
+                        <img 
+                          src={post.image || 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=800'} 
+                          alt={post.title} 
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                        />
                       </div>
-                      <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-primary transition-colors">
-                        {post.title}
-                      </h3>
-                      <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                        {post.excerpt}
-                      </p>
-                      <button className="text-primary font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">
-                        Read More <ArrowRight className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </article>
-                ))}
-              </div>
+                      <div className="p-8 flex flex-col flex-grow">
+                        <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
+                          <span className="flex items-center gap-1">
+                            <Calendar className="w-3.5 h-3.5" /> {new Date(post.date).toLocaleDateString("en-GB", {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            })}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <User className="w-3.5 h-3.5" /> {post.author}
+                          </span>
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-primary transition-colors line-clamp-2">
+                          {post.title}
+                        </h3>
+                        <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">
+                          {post.excerpt}
+                        </p>
+                        <div className="mt-auto">
+                          <Link 
+                            to={`/blog/${post.slug}`} 
+                            className="text-primary font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all"
+                          >
+                            Read More <ArrowRight className="w-4 h-4" />
+                          </Link>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300">
+                  <Search className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-slate-900">No articles found</h3>
+                  <p className="text-gray-500 mt-2">Try adjusting your search query or filter tags.</p>
+                </div>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -69,7 +139,9 @@ const Blog = () => {
                   <input 
                     type="text" 
                     placeholder="Keywords..." 
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border bg-slate-50 outline-none focus:ring-2 focus:ring-primary transition-all"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border bg-slate-50 outline-none focus:ring-2 focus:ring-primary transition-all font-semibold"
                   />
                 </div>
               </div>
@@ -78,32 +150,52 @@ const Blog = () => {
               <div className="bg-white p-8 rounded-2xl border shadow-sm">
                 <h4 className="text-lg font-bold text-slate-900 mb-4">Categories</h4>
                 <div className="space-y-2">
-                  {['Technology', 'Education', 'Campus Life', 'Engineering', 'Career'].map((cat) => (
-                    <a key={cat} href="#" className="flex justify-between items-center py-2 px-3 rounded-lg hover:bg-slate-50 text-gray-600 hover:text-primary transition-colors">
-                      <span className="flex items-center gap-2"><Tag className="w-4 h-4" /> {cat}</span>
-                      <span className="bg-slate-100 px-2 py-0.5 rounded text-[10px] font-bold">12</span>
-                    </a>
+                  {categories.map((cat) => (
+                    <button 
+                      key={cat} 
+                      onClick={() => setActiveCategory(cat)}
+                      className={`w-full flex justify-between items-center py-2.5 px-3.5 rounded-xl hover:bg-slate-50 transition-colors text-left ${
+                        activeCategory === cat ? 'bg-primary/5 text-primary font-bold' : 'text-gray-600 hover:text-primary'
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <Tag className={`w-4 h-4 ${activeCategory === cat ? 'text-primary' : 'text-gray-400'}`} /> {cat}
+                      </span>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                        activeCategory === cat ? 'bg-primary text-white' : 'bg-slate-100 text-slate-500'
+                      }`}>
+                        {categoryCounts[cat] || 0}
+                      </span>
+                    </button>
                   ))}
                 </div>
               </div>
 
               {/* Recent Posts */}
-              <div className="bg-white p-8 rounded-2xl border shadow-sm">
-                <h4 className="text-lg font-bold text-slate-900 mb-6">Popular Articles</h4>
-                <div className="space-y-6">
-                  {blogPosts.slice(0, 3).map((post) => (
-                    <div key={post.id} className="flex gap-4 group">
-                      <div className="w-20 h-20 rounded-lg overflow-hidden shrink-0">
-                        <img src={post.image} className="w-full h-full object-cover group-hover:scale-110 transition-all" />
-                      </div>
-                      <div>
-                        <h5 className="font-bold text-slate-900 text-sm line-clamp-2 group-hover:text-primary transition-colors">{post.title}</h5>
-                        <p className="text-[10px] text-gray-400 mt-1">{post.date}</p>
-                      </div>
-                    </div>
-                  ))}
+              {popularPosts.length > 0 && (
+                <div className="bg-white p-8 rounded-2xl border shadow-sm">
+                  <h4 className="text-lg font-bold text-slate-900 mb-6">Popular Articles</h4>
+                  <div className="space-y-6">
+                    {popularPosts.map((post) => (
+                      <Link key={post.id} to={`/blog/${post.slug}`} className="flex gap-4 group">
+                        <div className="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+                          <img src={post.image || 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=800'} className="w-full h-full object-cover group-hover:scale-110 transition-all" />
+                        </div>
+                        <div>
+                          <h5 className="font-bold text-slate-900 text-sm line-clamp-2 group-hover:text-primary transition-colors">{post.title}</h5>
+                          <p className="text-[10px] text-gray-400 mt-1">
+                            {new Date(post.date).toLocaleDateString("en-GB", {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
