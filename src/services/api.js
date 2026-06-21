@@ -186,3 +186,31 @@ export async function fetchSocialLinks() {
   const response = await api.get("/social-links");
   return response.data;
 }
+
+export async function getStudentProfile() {
+  const response = await api.get("/dashboard/profile");
+  return response.data;
+}
+
+export async function updateStudentProfile(data) {
+  const response = await api.put("/dashboard/profile", data);
+  return response.data;
+}
+
+export async function getSubjects(params) {
+  const response = await api.get("/subjects", { params });
+  return response.data;
+}
+
+export async function uploadFile(file, folder = "others") {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("folder", folder);
+  const response = await api.post("/upload", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+}
+
