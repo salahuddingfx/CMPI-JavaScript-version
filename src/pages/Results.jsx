@@ -469,6 +469,70 @@ export function Results() {
                 const department = computeDepartment(btebResults);
                 const regulation = sorted[0]?.regulation ?? "2022";
 
+                // ── Semester Drop Detection ─────────────────────────────────
+                // Per BTEB: 4+ referred subjects = Semester Drop
+                const SEMESTER_DROP_THRESHOLD = 4;
+                const droppedSemesters = sorted.filter(
+                  (r) =>
+                    (r.referred_subjects?.length ?? 0) >= SEMESTER_DROP_THRESHOLD,
+                );
+                const hasActiveDrop = droppedSemesters.length > 0;
+
+                // Find the latest dropped semester (most recent)
+                const latestDroppedSem = droppedSemesters.length > 0
+                  ? droppedSemesters.reduce((a, b) =>
+                      semIndex(a.semester) > semIndex(b.semester) ? a : b
+                    )
+                  : null;
+
+                // Past semesters BEFORE the latest drop are hidden
+                const latestDropIdx = latestDroppedSem
+                  ? semIndex(latestDroppedSem.semester)
+                  : -1;
+
+                // Visible semesters = all except those strictly before the latest drop
+                const visibleSemesters = sorted.filter((r) => {
+                  if (!hasActiveDrop) return true;
+                  const sIdx = semIndex(r.semester);
+                  return sIdx >= latestDropIdx;
+                });
+
+                // Hidden semesters (for the info message)
+                const hiddenSemesters = sorted.filter((r) => {
+                  if (!hasActiveDrop) return false;
+                  const sIdx = semIndex(r.semester);
+                  return sIdx < latestDropIdx;
+                });
+
+                // ── GPA Calculation (only passed semesters) ─────────────────
+                const passedSemesters = sorted.filter(
+                  (r) => r.status === "Passed" && r.gpa,
+                );
+                const avgGpa =
+                  passedSemesters.length > 0
+                    ? (
+                        passedSemesters.reduce(
+                          (a, s) => a + parseFloat(s.gpa || "0"),
+                          0,
+                        ) / passedSemesters.length
+                      ).toFixed(2)
+                    : "0.00";
+
+                // ── Total Referred Subjects ────────────────────────────────
+                const allReferred = [];
+                sorted.forEach((r) => {
+                  if (r.referred_subjects) {
+                    r.referred_subjects.forEach((sub) => {
+                      allReferred.push({
+                        code: sub,
+                        semester: r.semester,
+                        regulation: r.regulation,
+                        holding_year: r.holding_year,
+                      });
+                    });
+                  }
+                });
+
                 return (
                   <>
                     {/* ── Student Header Card ── */}
@@ -510,6 +574,33 @@ export function Results() {
                       </Button>
                     </div>
 
+                    {/* ── Semester Drop Status ── */}
+                    {hasActiveDrop && (
+                      <div className="rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/20 p-5">
+                        <div className="flex items-start gap-3">
+                          <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
+                          <div>
+                            <p className="font-black text-amber-800 dark:text-amber-300 text-sm">
+                              Semester Drop Status
+                            </p>
+                            <p className="text-xs text-amber-700 dark:text-amber-400 mt-1 leading-relaxed">
+                              You have {latestDroppedSem.referred_subjects?.length} or more referred subjects in {latestDroppedSem.semester} Semester examination. Under official BTEB regulations (Probidhan-{regulation}), this constitutes a <strong>Semester Drop</strong>. You must <strong>wait 1 year</strong> to repeat this semester before progressing to the next.
+                            </p>
+                            <div className="mt-2 flex flex-wrap gap-2">
+                              {droppedSemesters.map((ds) => (
+                                <span
+                                  key={ds.semester}
+                                  className="text-[10px] font-black uppercase bg-amber-200 dark:bg-amber-800/40 text-amber-800 dark:text-amber-300 px-2 py-0.5 rounded-full"
+                                >
+                                  {ds.semester} — {ds.referred_subjects?.length} Ref
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
                     {/* ── GPA Summary Grid ── */}
                     <div className="rounded-xl border bg-card shadow-sm p-5">
                       <p className="text-xs font-black uppercase tracking-wider text-muted-foreground mb-3">
@@ -522,22 +613,31 @@ export function Results() {
                               .toLowerCase()
                               .startsWith(sem.charAt(0)),
                           );
+                          const isDropped = droppedSemesters.some((ds) =>
+                            ds.semester.toLowerCase().startsWith(sem.charAt(0)),
+                          );
                           return (
                             <div
                               key={sem}
                               className={`rounded-lg border p-2 text-center flex flex-col items-center gap-0.5 ${
                                 !record
                                   ? "border-muted/30 bg-muted/10 opacity-40"
-                                  : record.status === "Passed"
-                                    ? "border-green-200 bg-green-50 dark:bg-green-950/20 dark:border-green-900/30"
-                                    : "border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-900/30"
+                                  : isDropped
+                                    ? "border-amber-200 bg-amber-50 dark:bg-amber-950/20 dark:border-amber-900/30"
+                                    : record.status === "Passed"
+                                      ? "border-green-200 bg-green-50 dark:bg-green-950/20 dark:border-green-900/30"
+                                      : "border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-900/30"
                               }`}
                             >
                               <span className="text-[10px] font-black text-muted-foreground uppercase">
                                 {sem}
                               </span>
                               {record ? (
-                                record.status === "Passed" ? (
+                                isDropped ? (
+                                  <span className="text-[10px] font-black text-amber-600 dark:text-amber-400">
+                                    Drop
+                                  </span>
+                                ) : record.status === "Passed" ? (
                                   <span className="text-base font-black text-green-700 dark:text-green-400">
                                     {parseFloat(record.gpa || "0").toFixed(2)}
                                   </span>
@@ -555,103 +655,293 @@ export function Results() {
                           );
                         })}
                       </div>
+                      <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <span className="w-2 h-2 rounded-full bg-green-500" /> Passed
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span className="w-2 h-2 rounded-full bg-amber-500" /> Dropped
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span className="w-2 h-2 rounded-full bg-red-500" /> Referred
+                        </span>
+                        <span className="ml-auto font-bold">
+                          Avg GPA: <span className="text-primary">{avgGpa}</span> (across {passedSemesters.length} passed)
+                        </span>
+                      </div>
                     </div>
+
+                    {/* ── Total Referred Subjects Card ── */}
+                    {allReferred.length > 0 && (
+                      <div className="rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/50 dark:bg-red-950/10 p-5">
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <p className="text-xs font-black uppercase tracking-wider text-red-600 dark:text-red-400 mb-1">
+                              Total Referred Subjects
+                            </p>
+                            <p className="text-3xl font-black text-red-700 dark:text-red-400">
+                              {allReferred.length}
+                              <span className="text-sm font-bold text-red-500 dark:text-red-400/70 ml-1">
+                                across {droppedSemesters.length} dropped semester{droppedSemesters.length > 1 ? "s" : ""}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-xs text-red-600 dark:text-red-400">
+                              Passed GPA
+                            </p>
+                            <p className="text-2xl font-black text-green-600 dark:text-green-400">
+                              {avgGpa}
+                            </p>
+                            <p className="text-[10px] text-red-500 dark:text-red-400/70">
+                              avg across {passedSemesters.length} passed semesters
+                            </p>
+                          </div>
+                        </div>
+                        <div className="mt-3 border-t border-red-200 dark:border-red-900/30 pt-3">
+                          <p className="text-xs font-bold text-red-600 dark:text-red-400 mb-2">
+                            Referred Subject Details
+                          </p>
+                          <div className="border rounded-lg overflow-hidden bg-card">
+                            <table className="w-full text-xs text-left">
+                              <thead className="bg-muted">
+                                <tr>
+                                  <th className="px-4 py-2">#</th>
+                                  <th className="px-4 py-2">Subject Code</th>
+                                  <th className="px-4 py-2">Subject Name</th>
+                                  <th className="px-4 py-2">Type</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y">
+                                {allReferred.map((ref, idx) => (
+                                  <tr key={`${ref.semester}-${ref.code}`} className="hover:bg-muted/10">
+                                    <td className="px-4 py-2 font-bold text-muted-foreground">
+                                      {idx + 1}
+                                    </td>
+                                    <td className="px-4 py-2 font-mono font-bold text-primary">
+                                      {ref.code.replace(/\([^)]+\)/g, "")}
+                                    </td>
+                                    <td className="px-4 py-2 font-semibold">
+                                      {getSubjectName(ref.code)}
+                                    </td>
+                                    <td className="px-4 py-2">
+                                      <span className="text-amber-600 dark:text-amber-400 font-bold">
+                                        {parseSubjectSuffix(ref.code)}
+                                      </span>
+                                      <span className="text-muted-foreground ml-1">
+                                        ({ref.semester})
+                                      </span>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* ── Hidden Past Results Notice ── */}
+                    {hiddenSemesters.length > 0 && (
+                      <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 p-4">
+                        <p className="text-xs font-bold text-slate-600 dark:text-slate-400">
+                          Past Semester Results Hidden
+                        </p>
+                        <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">
+                          Your past results are not visible due to your active semester drop status in {droppedSemesters.map((ds) => ds.semester).join(", ")} Semester.
+                        </p>
+                      </div>
+                    )}
 
                     {/* ── Semester Cards ── */}
                     <div className="space-y-4">
-                      {sorted.map((record) => (
-                        <div
-                          key={record.id}
-                          className="rounded-xl border bg-card p-6 shadow-sm"
-                        >
-                          <div className="flex flex-wrap items-center justify-between gap-4 border-b pb-4 mb-4">
-                            <div className="flex items-center gap-3">
-                              <div className="p-2 bg-primary/10 text-primary rounded-lg">
-                                <BookOpen className="h-5 w-5" />
-                              </div>
-                              <div>
-                                <h3 className="font-extrabold text-lg">
-                                  {record.semester} Semester Result
-                                </h3>
-                                <p className="text-xs text-muted-foreground">
-                                  Regulation: {record.regulation} · Holding
-                                  Year: {record.holding_year}
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="text-right">
-                              {record.status === "Passed" ? (
+                      {visibleSemesters.map((record) => {
+                        const isDropped = droppedSemesters.some(
+                          (ds) => ds.semester === record.semester,
+                        );
+                        const referredCount = record.referred_subjects?.length ?? 0;
+                        return (
+                          <div
+                            key={record.id}
+                            className={`rounded-xl border bg-card p-6 shadow-sm ${
+                              isDropped
+                                ? "border-l-4 border-l-amber-500"
+                                : record.status === "Passed"
+                                  ? "border-l-4 border-l-green-500"
+                                  : ""
+                            }`}
+                          >
+                            <div className="flex flex-wrap items-center justify-between gap-4 border-b pb-4 mb-4">
+                              <div className="flex items-center gap-3">
+                                <div className={`p-2 rounded-lg ${
+                                  isDropped
+                                    ? "bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400"
+                                    : record.status === "Passed"
+                                      ? "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
+                                      : "bg-primary/10 text-primary"
+                                }`}>
+                                  <BookOpen className="h-5 w-5" />
+                                </div>
                                 <div>
-                                  <p className="text-3xl font-black text-primary">
-                                    {parseFloat(record.gpa || "0").toFixed(2)}
-                                  </p>
-                                  <p className="text-[10px] font-bold text-muted-foreground uppercase">
-                                    SGPA
+                                  <h3 className="font-extrabold text-lg">
+                                    {record.semester} Semester Result
+                                  </h3>
+                                  <p className="text-xs text-muted-foreground">
+                                    Regulation: {record.regulation} · Holding
+                                    Year: {record.holding_year}
                                   </p>
                                 </div>
-                              ) : (
-                                <span className="px-3 py-1 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded-full font-black text-xs">
-                                  Referred
-                                </span>
-                              )}
-                            </div>
-                          </div>
+                              </div>
 
-                          {record.status === "Passed" ? (
-                            <div className="flex items-center gap-3 text-sm text-green-700 bg-green-50 dark:bg-green-950/20 dark:text-green-400 p-3 rounded-lg border border-green-100 dark:border-green-900/30">
-                              <CheckCircle className="h-5 w-5" />
-                              <span>
-                                Student has successfully passed the semester
-                                examinations.
-                              </span>
-                            </div>
-                          ) : (
-                            <div className="space-y-3">
-                              <p className="text-sm font-bold text-red-600 flex items-center gap-2">
-                                <AlertCircle className="h-4 w-4" />
-                                List of Referred Subjects (
-                                {record.referred_subjects?.length} courses):
-                              </p>
-                              <div className="border rounded-lg overflow-hidden bg-muted/10">
-                                <table className="w-full text-xs text-left">
-                                  <thead className="bg-muted">
-                                    <tr>
-                                      <th className="px-4 py-2">
-                                        Subject Code
-                                      </th>
-                                      <th className="px-4 py-2">
-                                        Subject Name
-                                      </th>
-                                      <th className="px-4 py-2">Exam Type</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody className="divide-y bg-card">
-                                    {record.referred_subjects?.map(
-                                      (subCode) => (
-                                        <tr
-                                          key={subCode}
-                                          className="hover:bg-muted/10"
-                                        >
-                                          <td className="px-4 py-2 font-mono font-bold text-primary">
-                                            {subCode.replace(/\([^)]+\)/g, "")}
-                                          </td>
-                                          <td className="px-4 py-2 font-semibold">
-                                            {getSubjectName(subCode)}
-                                          </td>
-                                          <td className="px-4 py-2 text-muted-foreground font-medium">
-                                            {parseSubjectSuffix(subCode)}
-                                          </td>
-                                        </tr>
-                                      ),
-                                    )}
-                                  </tbody>
-                                </table>
+                              <div className="text-right flex items-center gap-3">
+                                {isDropped ? (
+                                  <div>
+                                    <span className="px-3 py-1 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 rounded-full font-black text-xs">
+                                      Semester Drop
+                                    </span>
+                                    <p className="text-[10px] text-amber-600 dark:text-amber-400 mt-1">
+                                      {referredCount} referred · Wait 1 year
+                                    </p>
+                                  </div>
+                                ) : record.status === "Passed" ? (
+                                  <div>
+                                    <p className="text-3xl font-black text-primary">
+                                      {parseFloat(record.gpa || "0").toFixed(2)}
+                                    </p>
+                                    <p className="text-[10px] font-bold text-muted-foreground uppercase">
+                                      SGPA
+                                    </p>
+                                  </div>
+                                ) : (
+                                  <span className="px-3 py-1 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded-full font-black text-xs">
+                                    Referred ({referredCount})
+                                  </span>
+                                )}
                               </div>
                             </div>
-                          )}
-                        </div>
-                      ))}
+
+                            {record.status === "Passed" && !isDropped ? (
+                              <div className="flex items-center gap-3 text-sm text-green-700 bg-green-50 dark:bg-green-950/20 dark:text-green-400 p-3 rounded-lg border border-green-100 dark:border-green-900/30">
+                                <CheckCircle className="h-5 w-5" />
+                                <span>
+                                  Student has successfully passed the semester
+                                  examinations.
+                                </span>
+                              </div>
+                            ) : isDropped ? (
+                              <div className="space-y-3">
+                                <div className="flex items-center gap-2 p-3 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/30">
+                                  <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                                  <p className="text-xs font-bold text-amber-700 dark:text-amber-400">
+                                    Semester Drop — {referredCount} referred
+                                  </p>
+                                </div>
+
+                                {/* Drop Status Box */}
+                                <div className="rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/10 p-3">
+                                  <p className="text-[10px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-1">
+                                    Semester Drop Status (BTEB Rules)
+                                  </p>
+                                  <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
+                                    You have {referredCount} or more referred subjects in this semester examination. Under official BTEB regulations, this constitutes a <strong>Semester Drop</strong>. You must wait 1 year to repeat this semester before progressing.
+                                  </p>
+                                </div>
+
+                                {/* Referred Subjects Table */}
+                                <p className="text-sm font-bold text-red-600 flex items-center gap-2">
+                                  <AlertCircle className="h-4 w-4" />
+                                  Referred Subjects ({referredCount} total)
+                                </p>
+                                <div className="border rounded-lg overflow-hidden bg-muted/10">
+                                  <table className="w-full text-xs text-left">
+                                    <thead className="bg-muted">
+                                      <tr>
+                                        <th className="px-4 py-2">#</th>
+                                        <th className="px-4 py-2">
+                                          Subject Code
+                                        </th>
+                                        <th className="px-4 py-2">
+                                          Subject Name
+                                        </th>
+                                        <th className="px-4 py-2">Type</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody className="divide-y bg-card">
+                                      {record.referred_subjects?.map(
+                                        (subCode, idx) => (
+                                          <tr
+                                            key={subCode}
+                                            className="hover:bg-muted/10"
+                                          >
+                                            <td className="px-4 py-2 font-bold text-muted-foreground">
+                                              {idx + 1}
+                                            </td>
+                                            <td className="px-4 py-2 font-mono font-bold text-primary">
+                                              {subCode.replace(/\([^)]+\)/g, "")}
+                                            </td>
+                                            <td className="px-4 py-2 font-semibold">
+                                              {getSubjectName(subCode)}
+                                            </td>
+                                            <td className="px-4 py-2 text-amber-600 dark:text-amber-400 font-bold">
+                                              {parseSubjectSuffix(subCode)}
+                                            </td>
+                                          </tr>
+                                        ),
+                                      )}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="space-y-3">
+                                <p className="text-sm font-bold text-red-600 flex items-center gap-2">
+                                  <AlertCircle className="h-4 w-4" />
+                                  Referred Subjects ({referredCount} total)
+                                </p>
+                                <div className="border rounded-lg overflow-hidden bg-muted/10">
+                                  <table className="w-full text-xs text-left">
+                                    <thead className="bg-muted">
+                                      <tr>
+                                        <th className="px-4 py-2">#</th>
+                                        <th className="px-4 py-2">
+                                          Subject Code
+                                        </th>
+                                        <th className="px-4 py-2">
+                                          Subject Name
+                                        </th>
+                                        <th className="px-4 py-2">Type</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody className="divide-y bg-card">
+                                      {record.referred_subjects?.map(
+                                        (subCode, idx) => (
+                                          <tr
+                                            key={subCode}
+                                            className="hover:bg-muted/10"
+                                          >
+                                            <td className="px-4 py-2 font-bold text-muted-foreground">
+                                              {idx + 1}
+                                            </td>
+                                            <td className="px-4 py-2 font-mono font-bold text-primary">
+                                              {subCode.replace(/\([^)]+\)/g, "")}
+                                            </td>
+                                            <td className="px-4 py-2 font-semibold">
+                                              {getSubjectName(subCode)}
+                                            </td>
+                                            <td className="px-4 py-2 text-muted-foreground font-medium">
+                                              {parseSubjectSuffix(subCode)}
+                                            </td>
+                                          </tr>
+                                        ),
+                                      )}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </>
                 );
