@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import router from '@/routes';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { InstituteDataProvider } from '@/contexts/InstituteDataContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Loader from '@/components/Loader';
 
@@ -30,10 +31,12 @@ function App() {
         <HelmetProvider>
           <AuthProvider>
             <ThemeProvider>
-              <RouterProvider
-                router={router}
-                fallbackElement={<Loader />}
-              />
+              <InstituteDataProvider>
+                <RouterProvider
+                  router={router}
+                  fallbackElement={<Loader />}
+                />
+              </InstituteDataProvider>
               <Toaster
                 position="top-right"
                 toastOptions={{

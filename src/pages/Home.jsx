@@ -5,6 +5,7 @@ import Introduction from '@/components/home/Introduction';
 import PrincipalMessage from '@/components/home/PrincipalMessage';
 import DepartmentsPreview from '@/components/home/DepartmentsPreview';
 import NoticesAndEvents from '@/components/home/NoticesAndEvents';
+import VideoIntro from '@/components/home/VideoIntro';
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
         <Hero />
         <Introduction />
         <PrincipalMessage />
+        <VideoIntro />
         <DepartmentsPreview />
         <NoticesAndEvents />
         

@@ -1,53 +1,49 @@
-import { useQuery } from '@tanstack/react-query';
-import api from '@/services/api';
-import { notices, events, faculty, departments, blogPosts } from '@/data/mockData';
+import { useEffect, useState } from "react";
+import { fetchInstituteData } from "@/services/api";
+import { instituteData } from "@/services/mockData";
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-// When the real API isn't available yet (backend not running / dev mode),
-// fall back gracefully to local mock data instead of throwing.
-const withMockFallback = (mockData) => async (apiFn) => {
-  try {
-    return await apiFn();
-  } catch {
-    // If API is unavailable (network error / 404), return mock data silently
-    return mockData;
-  }
-};
+/** Validate that the API returned a proper InstituteData shape (not a Laravel auth error etc.) */
+function isValidInstituteData(value) {
+  if (!value || typeof value !== "object") return false;
+  const v = value;
+  return (
+    Array.isArray(v.stats) &&
+    Array.isArray(v.departments) &&
+    Array.isArray(v.faculty)
+  );
+}
 
-// ── Fetch functions ───────────────────────────────────────────────────────────
-const fetchNotices = () =>
-  withMockFallback(notices)(async () => {
-    const res = await api.get('/notices');
-    return res.data?.data ?? res.data;
-  });
+export function useInstituteData() {
+  // Initialize with mock data immediately — no null, no loading flash
+  const [data, setData] = useState(instituteData);
+  const [loading, setLoading] = useState(false); // already have data, no skeleton needed
+  const [error, setError] = useState(null);
 
-const fetchEvents = () =>
-  withMockFallback(events)(async () => {
-    const res = await api.get('/events');
-    return res.data?.data ?? res.data;
-  });
+  useEffect(() => {
+    let mounted = true;
 
-const fetchFaculty = () =>
-  withMockFallback(faculty)(async () => {
-    const res = await api.get('/faculty');
-    return res.data?.data ?? res.data;
-  });
+    async function load() {
+      try {
+        const result = await fetchInstituteData();
+        if (mounted && isValidInstituteData(result)) {
+          setData(result);
+        }
+        // If API returns wrong shape (e.g. {message:"Unauthenticated"}), keep mock data silently
+      } catch (err) {
+        if (mounted) {
+          setError(err instanceof Error ? err.message : "Failed to load data");
+        }
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
 
-const fetchDepartments = () =>
-  withMockFallback(departments)(async () => {
-    const res = await api.get('/departments');
-    return res.data?.data ?? res.data;
-  });
+    void load();
 
-const fetchBlogs = () =>
-  withMockFallback(blogPosts)(async () => {
-    const res = await api.get('/blog-posts');
-    return res.data?.data ?? res.data;
-  });
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
-// ── Hooks ─────────────────────────────────────────────────────────────────────
-export const useNotices     = () => useQuery({ queryKey: ['notices'],     queryFn: fetchNotices });
-export const useEvents      = () => useQuery({ queryKey: ['events'],      queryFn: fetchEvents });
-export const useFaculty     = () => useQuery({ queryKey: ['faculty'],     queryFn: fetchFaculty });
-export const useDepartments = () => useQuery({ queryKey: ['departments'], queryFn: fetchDepartments });
-export const useBlogs       = () => useQuery({ queryKey: ['blogs'],       queryFn: fetchBlogs });
+  return { data, loading, error };
+}

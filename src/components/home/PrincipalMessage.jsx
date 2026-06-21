@@ -28,7 +28,7 @@ const PrincipalMessage = () => {
                 
                 <div className="relative rounded-[1.25rem] sm:rounded-[1.5rem] overflow-hidden aspect-[4/5] shadow-2xl">
                   <img 
-                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600" 
+                    src="/principal.png" 
                     alt="Principal" 
                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                   />
@@ -68,10 +68,10 @@ const PrincipalMessage = () => {
 
                 <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                   <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-xl overflow-hidden border-2 border-secondary/30 shrink-0">
-                     <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=150" className="w-full h-full object-cover" alt="Principal Thumbnail" />
+                     <img src="/principal.png" className="w-full h-full object-cover" alt="Principal Thumbnail" />
                   </div>
                   <div>
-                    <h4 className="text-base sm:text-lg font-bold text-white">Engr. Mahbubur Rahman</h4>
+                    <h4 className="text-base sm:text-lg font-bold text-white">Ln. Md. Didar Ullah</h4>
                     <p className="text-secondary/70 font-semibold text-[10px] sm:text-xs">Principal & Visionary, CMPI</p>
                   </div>
                 </div>
