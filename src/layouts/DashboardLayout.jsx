@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Home, Book, FileText, User, LogOut, Settings, Bell, Menu, X } from 'lucide-react';
+import { Home, Book, FileText, User, LogOut, Settings, Bell, Menu, X, CreditCard } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import SEO from '@/components/SEO';
 import PageTransition from '@/components/PageTransition';
@@ -12,6 +12,7 @@ const sidebarLinks = [
   { name: 'Overview',   path: '/dashboard',          icon: Home },
   { name: 'My Courses', path: '/dashboard/courses',  icon: Book },
   { name: 'Results',    path: '/dashboard/results',  icon: FileText },
+  { name: 'Bills',      path: '/dashboard/bills',    icon: CreditCard },
   { name: 'Profile',    path: '/dashboard/profile',  icon: User },
   { name: 'Settings',   path: '/dashboard/settings', icon: Settings },
 ];
