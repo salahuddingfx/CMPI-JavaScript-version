@@ -103,7 +103,7 @@ const Events = () => {
                 className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
               >
                 {filtered.map((event, i) => {
-                  const upcoming = isFuture(event.date);
+                  const upcoming = event.status === 'Upcoming';
                   return (
                     <motion.div
                       key={event.id}
@@ -112,7 +112,7 @@ const Events = () => {
                     >
                       <div className="relative h-52 overflow-hidden">
                         <img
-                          src={event.image}
+                          src={event.image || 'https://images.unsplash.com/photo-1540575861501-7cf05a4b125a?auto=format&fit=crop&q=80&w=800'}
                           alt={event.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
@@ -123,7 +123,7 @@ const Events = () => {
                               : 'bg-slate-700 text-white'
                           }`}
                         >
-                          {upcoming ? 'Upcoming' : 'Past'}
+                          {event.status}
                         </span>
                       </div>
                       <div className="p-6">
@@ -133,16 +133,22 @@ const Events = () => {
                         <div className="space-y-2 text-sm text-slate-500 mb-5">
                           <div className="flex items-center gap-2">
                             <Calendar className="w-4 h-4 text-primary shrink-0" />
-                            <span className="font-semibold">{event.date}</span>
+                            <span className="font-semibold">
+                              {new Date(event.date).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric",
+                              })}
+                            </span>
                           </div>
                           <div className="flex items-center gap-2">
                             <MapPin className="w-4 h-4 text-primary shrink-0" />
-                            <span>{event.location}</span>
+                            <span>{event.venue}</span>
                           </div>
                         </div>
-                        <button className="flex items-center gap-2 text-primary font-bold text-sm hover:gap-3 transition-all">
+                        <Link to={`/events/${event.id}`} className="inline-flex items-center gap-2 text-primary font-bold text-sm hover:gap-3 transition-all">
                           View Details <ArrowRight className="w-4 h-4" />
-                        </button>
+                        </Link>
                       </div>
                     </motion.div>
                   );
