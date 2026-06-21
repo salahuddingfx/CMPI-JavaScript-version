@@ -365,7 +365,6 @@ export const BTEB_SUBJECTS = {
   // ═══════════════════════════════════════════════════════════════════════════
 
   // 2022 Regulation — Electrical Technology (267xx / 268xx)
-  "26711": { name: "Basic Electricity", dept: "Electrical Technology" },
   "26712": {
     name: "Electrical Engineering Materials",
     dept: "Electrical Technology",
@@ -595,15 +594,8 @@ export const BTEB_SUBJECTS = {
   // MECHANICAL TECHNOLOGY
   // ═══════════════════════════════════════════════════════════════════════════
 
-  "27011": { name: "Workshop Technology", dept: "Mechanical Technology" },
-  "27012": { name: "Basic Workshop Practice", dept: "Mechanical Technology" },
-  "27041": { name: "Engineering Mechanics", dept: "Mechanical Technology" },
+  "27012": { name: "Basic Workshop Practice", dept: "Shared" },
   "27044": { name: "Applied Mechanics", dept: "Mechanical Technology" },
-  "27051": {
-    name: "Fluid Mechanics & Machineries",
-    dept: "Mechanical Technology",
-  },
-  "27061": { name: "Strength of Materials", dept: "Mechanical Technology" },
   "27071": {
     name: "Design of Machine Elements",
     dept: "Mechanical Technology",
