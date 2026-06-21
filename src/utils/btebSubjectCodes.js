@@ -626,21 +626,22 @@ export function getSubjectDepartment(code) {
 
 /**
  * Infer a student's department from their list of referred subject codes.
- * Uses majority-vote across all recognizable (non-General) subject codes.
+ * Uses majority-vote across all recognizable (non-General, non-Shared) subject codes.
+ * Shared codes (like Basic Electricity, Workshop Technology) appear in ALL departments
+ * and should NOT be used for department detection.
  */
 export function detectDepartmentFromSubjects(subjectCodes) {
   const counts = {};
 
   subjectCodes.forEach((code) => {
     const dept = getSubjectDepartment(code);
-    if (dept !== "General") {
+    if (dept !== "General" && dept !== "Shared") {
       counts[dept] = (counts[dept] ?? 0) + 1;
     }
   });
 
   if (Object.keys(counts).length === 0) return "General Technology";
 
-  // Return department with most matching codes
   return (
     Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] ??
     "General Technology"
