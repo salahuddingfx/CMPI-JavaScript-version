@@ -10,6 +10,24 @@
 
 export const BTEB_SUBJECTS = {
   // ═══════════════════════════════════════════════════════════════════════════
+  // SHARED / CROSS-DEPARTMENT SUBJECTS — used by multiple departments
+  // These should NOT be used for department detection
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  "26711": { name: "Basic Electricity", dept: "Shared" },
+  "26811": { name: "Basic Electronics", dept: "Shared" },
+  "27011": { name: "Workshop Technology", dept: "Shared" },
+  "27012": { name: "Basic Workshop Practice", dept: "Shared" },
+  "27041": { name: "Engineering Mechanics", dept: "Shared" },
+  "27051": { name: "Fluid Mechanics", dept: "Shared" },
+  "27061": { name: "Strength of Materials", dept: "Shared" },
+  "26721": { name: "Electrical Circuits-I", dept: "Shared" },
+  "26833": { name: "Industrial Electronics", dept: "Shared" },
+  "26842": { name: "Communication Engineering", dept: "Shared" },
+  "26845": { name: "Digital Electronics", dept: "Shared" },
+  "26853": { name: "Microprocessor & Microcontroller", dept: "Shared" },
+
+  // ═══════════════════════════════════════════════════════════════════════════
   // GENERAL / SCIENCE SUBJECTS — shared by all departments
   // ═══════════════════════════════════════════════════════════════════════════
 
