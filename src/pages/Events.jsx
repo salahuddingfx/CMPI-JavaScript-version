@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
 import PageTransition from '@/components/PageTransition';
 import SEO from '@/components/SEO';
-import { events } from '@/data/mockData';
-import { isFuture } from '@/utils/helpers';
+import { LoadingSkeleton } from '@/components/LoadingSkeleton';
+import { useInstituteContext } from '@/contexts/InstituteDataContext';
+import { Link } from 'react-router-dom';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -14,6 +15,7 @@ const fadeUp = (delay = 0) => ({
 
 const Events = () => {
   const [filter, setFilter] = useState('all');
+  const { data, loading, error } = useInstituteContext();
 
   const tabs = [
     { key: 'all', label: 'All Events' },
@@ -21,11 +23,27 @@ const Events = () => {
     { key: 'past', label: 'Past' },
   ];
 
+  if (loading) return <LoadingSkeleton />;
+  if (error || !data) {
+    return (
+      <PageTransition>
+        <div className="container mx-auto px-4 py-20">
+          <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center text-red-700">
+            Unable to load events listing. Please try again later.
+          </div>
+        </div>
+      </PageTransition>
+    );
+  }
+
+  const events = data.events || [];
+
   const filtered = events.filter((e) => {
-    if (filter === 'upcoming') return isFuture(e.date);
-    if (filter === 'past') return !isFuture(e.date);
+    if (filter === 'upcoming') return e.status === 'Upcoming';
+    if (filter === 'past') return e.status === 'Past';
     return true;
   });
+
 
   return (
     <PageTransition>
