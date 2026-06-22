@@ -65,21 +65,21 @@ export function Syllabus() {
     return {};
   });
 
-  const fetchSubjectsData = async () => {
-    setLoading(true);
-    try {
-      const deptName = deptLabel[activeDept];
-      const data = await getSubjects({ department: deptName });
-      setSubjects(data || []);
-    } catch (err) {
-      console.error("Failed to load subjects", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchSubjectsData();
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      try {
+        const deptName = deptLabel[activeDept];
+        const data = await getSubjects({ department: deptName });
+        if (!cancelled) setSubjects(data || []);
+      } catch (err) {
+        console.error("Failed to load subjects", err);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
   }, [activeDept]);
 
   const handleFileUpload = async (dept, sem, file) => {
