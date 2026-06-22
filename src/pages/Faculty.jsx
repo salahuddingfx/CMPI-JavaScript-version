@@ -20,7 +20,6 @@ const Faculty = () => {
       const desMatch = member.designation?.toLowerCase().includes(searchTerm.toLowerCase());
       const qualMatch = member.qualification?.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesSearch = nameMatch || desMatch || qualMatch;
-      
       const matchesDept = selectedDept === 'All' || member.department === selectedDept;
       return matchesSearch && matchesDept;
     });
@@ -31,7 +30,7 @@ const Faculty = () => {
     return (
       <PageTransition>
         <div className="container mx-auto px-4 py-20">
-          <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center text-red-700">
+          <div className="rounded-2xl border border-red-200 bg-red-50 dark:bg-red-500/10 dark:border-red-800 p-6 text-center text-red-700 dark:text-red-400">
             Unable to load faculty listing. Please try again later.
           </div>
         </div>
@@ -43,7 +42,6 @@ const Faculty = () => {
     <PageTransition>
       <SEO title="Faculty Members" description="Meet the experienced educators at CMPI." />
       
-      {/* Page Header */}
       <section className="bg-slate-900 py-20 text-white">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Faculty</h1>
@@ -53,26 +51,25 @@ const Faculty = () => {
         </div>
       </section>
 
-      {/* Search and Filter */}
-      <section className="py-8 bg-white border-b sticky top-16 z-30">
+      <section className="py-8 bg-white dark:bg-slate-950 border-b dark:border-slate-800 sticky top-16 z-30">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
             <div className="relative w-full md:w-96">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 w-5 h-5" />
               <input 
                 type="text" 
                 placeholder="Search by name, designation, qualification..." 
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border focus:ring-2 focus:ring-primary focus:border-transparent outline-none font-semibold"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary focus:border-transparent outline-none font-semibold text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             
             <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 no-scrollbar">
-              <Filter className="w-5 h-5 text-gray-400 shrink-0" />
+              <Filter className="w-5 h-5 text-gray-400 dark:text-slate-500 shrink-0" />
               <button 
                 onClick={() => setSelectedDept('All')}
-                className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors ${selectedDept === 'All' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors ${selectedDept === 'All' ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-700'}`}
               >
                 All Departments
               </button>
@@ -80,7 +77,7 @@ const Faculty = () => {
                 <button 
                   key={dept.id}
                   onClick={() => setSelectedDept(dept.name)}
-                  className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors ${selectedDept === dept.name ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                  className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors ${selectedDept === dept.name ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-700'}`}
                 >
                   {dept.name}
                 </button>
@@ -90,14 +87,13 @@ const Faculty = () => {
         </div>
       </section>
 
-      {/* Faculty Grid */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-slate-50 dark:bg-slate-900">
         <div className="container mx-auto px-4">
           {filteredFaculty.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {filteredFaculty.map((member) => (
-                <div key={member.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border flex flex-col h-full">
-                  <div className="h-72 overflow-hidden relative bg-slate-100">
+                <div key={member.id} className="bg-white dark:bg-slate-950 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border border-slate-100 dark:border-slate-800 flex flex-col h-full">
+                  <div className="h-72 overflow-hidden relative bg-slate-100 dark:bg-slate-800">
                     <img 
                       src={member.photo || member.image || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400'} 
                       alt={member.name} 
@@ -110,15 +106,15 @@ const Faculty = () => {
                     </div>
                   </div>
                   <div className="p-6 flex flex-col flex-grow">
-                    <h3 className="text-xl font-bold text-slate-900 mb-1">{member.name}</h3>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">{member.name}</h3>
                     <p className="text-primary font-bold text-sm mb-4 uppercase tracking-wide">{member.designation}</p>
                     
-                    <div className="space-y-3 pt-4 border-t mt-auto">
-                      <div className="flex items-start gap-3 text-sm text-gray-600">
+                    <div className="space-y-3 pt-4 border-t dark:border-slate-800 mt-auto">
+                      <div className="flex items-start gap-3 text-sm text-gray-600 dark:text-slate-400">
                         <Book className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                         <span>{member.department}</span>
                       </div>
-                      <div className="flex items-start gap-3 text-sm text-gray-600">
+                      <div className="flex items-start gap-3 text-sm text-gray-600 dark:text-slate-400">
                         <GraduationCap className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
                         <span>{member.qualification}</span>
                       </div>
@@ -128,19 +124,18 @@ const Faculty = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-300 max-w-md mx-auto">
-              <div className="bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Search className="w-10 h-10 text-gray-300" />
+            <div className="text-center py-20 bg-white dark:bg-slate-950 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 max-w-md mx-auto">
+              <div className="bg-gray-100 dark:bg-slate-800 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Search className="w-10 h-10 text-gray-300 dark:text-slate-500" />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900">No faculty members found</h3>
-              <p className="text-gray-500 mt-2">Try adjusting your search or filter settings.</p>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white">No faculty members found</h3>
+              <p className="text-gray-500 dark:text-slate-400 mt-2">Try adjusting your search or filter settings.</p>
             </div>
           )}
         </div>
       </section>
 
-      {/* Join the Team CTA */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-slate-950">
         <div className="container mx-auto px-4">
           <div className="bg-primary rounded-3xl p-12 text-center text-white relative overflow-hidden">
             <h2 className="text-3xl font-bold mb-6">Want to Join Our Teaching Team?</h2>
@@ -150,8 +145,6 @@ const Faculty = () => {
             <Link to="/contact" className="inline-block px-10 py-4 bg-secondary text-primary font-bold rounded-xl hover:bg-white transition-all">
               Check Career Opportunities
             </Link>
-            
-            {/* Background elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full -ml-20 -mb-20 blur-3xl"></div>
           </div>
