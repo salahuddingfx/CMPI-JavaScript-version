@@ -31,15 +31,24 @@ export function ClassRoutine() {
   const [loading, setLoading] = useState(true);
   const [preview, setPreview] = useState(null);
 
+  async function loadRoutines(isBackground = false) {
+    if (!isBackground) setLoading(true);
+    try {
+      const response = await api.get("/class-routines");
+      setRoutines(response.data || response || []);
+    } catch (err) {
+      console.error("Failed to load routines", err);
+    }
+    if (!isBackground) setLoading(false);
+  }
+
   useEffect(() => {
     loadRoutines();
     const interval = setInterval(() => {
       loadRoutines(true);
-    }, 15000); // Poll class routines every 15 seconds
+    }, 15000);
     return () => clearInterval(interval);
   }, []);
-
-  async function loadRoutines(isBackground = false) {
     if (!isBackground) setLoading(true);
     try {
       const response = await api.get("/class-routines");
