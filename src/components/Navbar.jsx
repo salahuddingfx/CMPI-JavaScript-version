@@ -62,9 +62,11 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
+  const prevLocation = useRef(location.pathname);
+  if (prevLocation.current !== location.pathname) {
+    prevLocation.current = location.pathname;
     setIsOpen(false);
-  }, [location]);
+  }
 
   const toggleExpand = (name) => {
     setExpandedLink((prev) => (prev === name ? null : name));
