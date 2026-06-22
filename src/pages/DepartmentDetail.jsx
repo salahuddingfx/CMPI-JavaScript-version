@@ -33,17 +33,18 @@ const DepartmentDetail = () => {
 
   useEffect(() => {
     if (!department) return;
-    setSubjectsLoading(true);
-    api.get(`/departments/${department.slug}`)
-      .then((res) => {
-        setSubjects(res.data?.subjects ?? []);
-      })
-      .catch(() => {
-        setSubjects([]);
-      })
-      .finally(() => {
-        setSubjectsLoading(false);
-      });
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await api.get(`/departments/${department.slug}`);
+        if (!cancelled) setSubjects(res.data?.subjects ?? []);
+      } catch {
+        if (!cancelled) setSubjects([]);
+      } finally {
+        if (!cancelled) setSubjectsLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
   }, [department]);
 
   if (loading) return <LoadingSkeleton />;
