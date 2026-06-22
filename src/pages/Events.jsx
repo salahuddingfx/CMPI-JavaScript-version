@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
+import { MapPin, Calendar, ArrowRight } from 'lucide-react';
 import PageTransition from '@/components/PageTransition';
 import SEO from '@/components/SEO';
 import { LoadingSkeleton } from '@/components/LoadingSkeleton';

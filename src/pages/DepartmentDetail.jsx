@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PageTransition from '@/components/PageTransition';
 import SEO from '@/components/SEO';
-import { Monitor, Building2, Zap, Users, FlaskConical, Briefcase, GraduationCap, ArrowLeft, BookOpen } from 'lucide-react';
+import { Monitor, Building2, Zap, Users, FlaskConical, Briefcase, ArrowLeft, BookOpen } from 'lucide-react';
 import NotFound from '@/pages/NotFound';
 import { useInstituteContext } from '@/contexts/InstituteDataContext';
 import { LoadingSkeleton } from '@/components/LoadingSkeleton';

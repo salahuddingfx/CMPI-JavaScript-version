@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SEO } from "@/components/SEO";
 import { PageTransition } from "@/components/PageTransition";
-import { SectionHeader } from "@/components/SectionHeader";
 import { submitAdmission, trackAdmission } from "@/services/api";
 
 const departmentsList = [
@@ -88,7 +87,7 @@ export function Admission() {
     try {
       const res = await trackAdmission(trackId);
       setTrackResult(res);
-    } catch (err) {
+    } catch {
       setTrackResult(null);
       setError("Application not found. Check your Application ID.");
     } finally {

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import {
-  Target, Eye, BookOpen, Award, Users, Building2,
-  CheckCircle, Calendar, Flag, Star, ChevronRight
+  Target, Eye, Award, Users,
+  CheckCircle, Calendar, Flag, Star
 } from 'lucide-react';
 import PageTransition from '@/components/PageTransition';
 import SEO from '@/components/SEO';

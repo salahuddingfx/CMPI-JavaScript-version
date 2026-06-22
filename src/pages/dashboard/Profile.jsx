@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Camera, User, Mail, Phone, Hash, Building2, Calendar, Edit3, Save, X, Heart, Award, Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -99,7 +99,7 @@ const Profile = () => {
 
       toast.success('Profile updated successfully.');
       setEditing(false);
-    } catch (e) {
+    } catch {
       toast.error('Failed to save profile changes.');
     } finally {
       setSaving(false);

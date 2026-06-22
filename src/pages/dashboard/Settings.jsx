@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Moon, Sun, Bell, Lock, Globe, Shield, Eye, EyeOff, Save } from 'lucide-react';
+import { Moon, Sun, Bell, Lock, Shield, Eye, EyeOff, Save } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

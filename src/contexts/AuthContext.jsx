@@ -6,13 +6,12 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !localStorage.getItem('token'));
 
   // ── Restore session from stored token ────────────────────────────────────────
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      setLoading(false);
       return;
     }
     // Verify token by fetching current user (Laravel Sanctum: GET /api/user)

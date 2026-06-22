@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, Download, Award, ChevronDown, ChevronUp } from 'lucide-react';
+import { Download, Award, ChevronDown, ChevronUp } from 'lucide-react';
 
 const semesterResults = [
   {

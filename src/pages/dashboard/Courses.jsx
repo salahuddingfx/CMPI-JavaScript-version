@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Book, Clock, CheckCircle2, User, ChevronRight } from 'lucide-react';
+import { Book, Clock, User, ChevronRight } from 'lucide-react';
 
 const semesters = ['Current Semester', 'Semester 3', 'Semester 2', 'Semester 1'];
 
