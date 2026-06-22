@@ -28,7 +28,7 @@ const Events = () => {
     return (
       <PageTransition>
         <div className="container mx-auto px-4 py-20">
-          <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center text-red-700">
+          <div className="rounded-2xl border border-red-200 bg-red-50 dark:bg-red-500/10 dark:border-red-800 p-6 text-center text-red-700 dark:text-red-400">
             Unable to load events listing. Please try again later.
           </div>
         </div>
@@ -44,7 +44,6 @@ const Events = () => {
     return true;
   });
 
-
   return (
     <PageTransition>
       <SEO
@@ -52,7 +51,6 @@ const Events = () => {
         description="Stay updated with upcoming and past events at CMPI — sports, tech fests, cultural nights and more."
       />
 
-      {/* Hero */}
       <section className="bg-primary py-24 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=1800')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary/80" />
@@ -69,10 +67,9 @@ const Events = () => {
         </div>
       </section>
 
-      {/* Filter Tabs */}
-      <section className="sticky top-16 z-30 bg-white border-b py-4">
+      <section className="sticky top-16 z-30 bg-white dark:bg-slate-950 border-b dark:border-slate-800 py-4">
         <div className="container mx-auto px-4 flex justify-center">
-          <div className="flex bg-slate-100 rounded-2xl p-1 gap-1">
+          <div className="flex bg-slate-100 dark:bg-slate-800 rounded-2xl p-1 gap-1">
             {tabs.map((t) => (
               <button
                 key={t.key}
@@ -80,7 +77,7 @@ const Events = () => {
                 className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
                   filter === t.key
                     ? 'bg-primary text-white shadow-md shadow-primary/20'
-                    : 'text-slate-600 hover:text-slate-900'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 {t.label}
@@ -90,8 +87,7 @@ const Events = () => {
         </div>
       </section>
 
-      {/* Events Grid */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-slate-50 dark:bg-slate-900">
         <div className="container mx-auto px-4">
           <AnimatePresence mode="wait">
             {filtered.length > 0 ? (
@@ -108,7 +104,7 @@ const Events = () => {
                     <motion.div
                       key={event.id}
                       {...fadeUp(i * 0.1)}
-                      className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all group"
+                      className="bg-white dark:bg-slate-950 rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group"
                     >
                       <div className="relative h-52 overflow-hidden">
                         <img
@@ -127,10 +123,10 @@ const Events = () => {
                         </span>
                       </div>
                       <div className="p-6">
-                        <h3 className="text-xl font-black text-slate-900 mb-3 group-hover:text-primary transition-colors">
+                        <h3 className="text-xl font-black text-slate-900 dark:text-white mb-3 group-hover:text-primary transition-colors">
                           {event.title}
                         </h3>
-                        <div className="space-y-2 text-sm text-slate-500 mb-5">
+                        <div className="space-y-2 text-sm text-slate-500 dark:text-slate-400 mb-5">
                           <div className="flex items-center gap-2">
                             <Calendar className="w-4 h-4 text-primary shrink-0" />
                             <span className="font-semibold">
@@ -159,34 +155,33 @@ const Events = () => {
                 key="empty"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-center py-24 bg-white rounded-3xl border border-dashed border-slate-300 max-w-md mx-auto"
+                className="text-center py-24 bg-white dark:bg-slate-950 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 max-w-md mx-auto"
               >
-                <Calendar className="w-16 h-16 text-slate-200 mx-auto mb-4" />
-                <h3 className="text-xl font-black text-slate-900">No events found</h3>
-                <p className="text-slate-500 mt-2">Check back soon for updates!</p>
+                <Calendar className="w-16 h-16 text-slate-200 dark:text-slate-600 mx-auto mb-4" />
+                <h3 className="text-xl font-black text-slate-900 dark:text-white">No events found</h3>
+                <p className="text-slate-500 dark:text-slate-400 mt-2">Check back soon for updates!</p>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-slate-950">
         <div className="container mx-auto px-4">
           <motion.div
             {...fadeUp()}
-            className="bg-slate-900 rounded-3xl p-12 text-center text-white max-w-3xl mx-auto"
+            className="bg-slate-900 dark:bg-slate-800 rounded-3xl p-12 text-center text-white max-w-3xl mx-auto"
           >
             <h2 className="text-3xl font-black mb-4">Want to Organize an Event?</h2>
             <p className="text-slate-400 mb-8">
               Student clubs and departments can submit event proposals to the administration.
             </p>
-            <a
-              href="/contact"
+            <Link
+              to="/contact"
               className="inline-flex items-center gap-2 px-8 py-4 bg-secondary text-primary rounded-2xl font-black hover:bg-white transition-all"
             >
               Contact Administration <ArrowRight className="w-5 h-5" />
-            </a>
+            </Link>
           </motion.div>
         </div>
       </section>
