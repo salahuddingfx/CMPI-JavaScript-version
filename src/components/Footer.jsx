@@ -49,9 +49,9 @@ const Footer = () => {
               Departments
             </h3>
             <ul className="space-y-3 text-sm">
-              <li><Link to="/academics/computer-science" className="hover:text-primary transition-colors">Computer Science & Technology</Link></li>
-              <li><Link to="/academics/civil" className="hover:text-primary transition-colors">Civil Technology</Link></li>
-              <li><Link to="/academics/electrical" className="hover:text-primary transition-colors">Electrical Technology</Link></li>
+              <li><Link to="/academics/computer-science-technology" className="hover:text-primary transition-colors">Computer Science & Technology</Link></li>
+              <li><Link to="/academics/civil-technology" className="hover:text-primary transition-colors">Civil Technology</Link></li>
+              <li><Link to="/academics/electrical-technology" className="hover:text-primary transition-colors">Electrical Technology</Link></li>
             </ul>
           </div>
 
@@ -78,11 +78,11 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
-          <p>© {currentYear} CMPI. All rights reserved.</p>
+          <p>&copy; {currentYear} CMPI. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-primary">Privacy Policy</a>
-            <a href="#" className="hover:text-primary">Terms of Service</a>
-            <a href="#" className="hover:text-primary">Sitemap</a>
+            <Link to="/privacy-policy" className="hover:text-primary">Privacy Policy</Link>
+            <Link to="/terms-and-conditions" className="hover:text-primary">Terms of Service</Link>
+            <Link to="/sitemap" className="hover:text-primary">Sitemap</Link>
           </div>
         </div>
       </div>
