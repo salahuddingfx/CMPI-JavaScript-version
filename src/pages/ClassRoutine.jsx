@@ -31,17 +31,6 @@ export function ClassRoutine() {
   const [loading, setLoading] = useState(true);
   const [preview, setPreview] = useState(null);
 
-  async function loadRoutines(isBackground = false) {
-    if (!isBackground) setLoading(true);
-    try {
-      const response = await api.get("/class-routines");
-      setRoutines(response.data || response || []);
-    } catch (err) {
-      console.error("Failed to load routines", err);
-    }
-    if (!isBackground) setLoading(false);
-  }
-
   useEffect(() => {
     let cancelled = false;
     async function load(isBackground = false) {
