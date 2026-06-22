@@ -11,7 +11,7 @@ const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
 
-  const blogs = data?.blogs || [];
+  const blogs = useMemo(() => data?.blogs || [], [data?.blogs]);
 
   // Extract unique categories from backend blog posts
   const categories = useMemo(() => {
