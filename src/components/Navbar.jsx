@@ -27,7 +27,6 @@ const navLinks = [
     { name: 'About Us', path: '/about' },
     { name: "Principal's Message", path: '/principal' },
     { name: 'Faculty Members', path: '/faculty' },
-    { name: 'Developer Info', path: '/developer' },
     { divider: true },
     { name: 'Notice Board', path: '/notice-board' },
     { name: 'Contact', path: '/contact' },
