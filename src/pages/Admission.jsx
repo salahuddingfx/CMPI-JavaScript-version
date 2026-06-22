@@ -97,9 +97,9 @@ export function Admission() {
 
   const statusColor = (s) => {
     switch (s?.toLowerCase()) {
-      case "approved": return "text-green-600 bg-green-50 border-green-200";
-      case "rejected": return "text-red-600 bg-red-50 border-red-200";
-      default: return "text-yellow-600 bg-yellow-50 border-yellow-200";
+      case "approved": return "text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-800";
+      case "rejected": return "text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-800";
+      default: return "text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-500/10 border-yellow-200 dark:border-yellow-800";
     }
   };
 
@@ -123,7 +123,7 @@ export function Admission() {
           <button
             onClick={() => { setView("info"); setTrackResult(null); setError(null); }}
             className={`inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold transition ${
-              view === "info" ? "bg-primary text-white" : "border bg-white hover:bg-slate-50"
+              view === "info" ? "bg-primary text-white" : "border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-white"
             }`}
           >
             Requirements & Fees
@@ -131,7 +131,7 @@ export function Admission() {
           <button
             onClick={() => { setView("apply"); setTrackResult(null); setError(null); }}
             className={`inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold transition ${
-              view === "apply" ? "bg-primary text-white" : "border bg-white hover:bg-slate-50"
+              view === "apply" ? "bg-primary text-white" : "border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-white"
             }`}
           >
             Apply Online Now
@@ -139,7 +139,7 @@ export function Admission() {
           <button
             onClick={() => { setView("track"); setTrackResult(null); setError(null); }}
             className={`inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold transition ${
-              view === "track" ? "bg-primary text-white" : "border bg-white hover:bg-slate-50"
+              view === "track" ? "bg-primary text-white" : "border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-white"
             }`}
           >
             <Search className="h-4 w-4" /> Track Application
@@ -155,7 +155,7 @@ export function Admission() {
         </div>
 
         {error && (
-          <div className="mx-auto mb-6 max-w-lg rounded-2xl border border-red-200 bg-red-50 p-4 text-center text-sm font-bold text-red-600">
+          <div className="mx-auto mb-6 max-w-lg rounded-2xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-500/10 p-4 text-center text-sm font-bold text-red-600 dark:text-red-400">
             {error}
           </div>
         )}
@@ -166,7 +166,7 @@ export function Admission() {
             {/* Requirements & Documents */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
               <div>
-                <h2 className="text-3xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-8 flex items-center gap-3">
                   <GraduationCap className="text-primary w-8 h-8" /> Admission Requirements
                 </h2>
                 <div className="space-y-6">
@@ -177,15 +177,15 @@ export function Admission() {
                     "Age must be within the limit specified by the Bangladesh Technical Education Board (BTEB).",
                     "Foreign students must have their certificates verified by the relevant authorities."
                   ].map((req, i) => (
-                    <div key={i} className="flex gap-4 items-start p-4 rounded-2xl bg-slate-50 border border-slate-100 font-semibold text-sm">
+                    <div key={i} className="flex gap-4 items-start p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 font-semibold text-sm">
                       <CheckCircle2 className="text-primary w-6 h-6 shrink-0 mt-1" />
-                      <p className="text-gray-700 leading-relaxed">{req}</p>
+                      <p className="text-gray-700 dark:text-slate-300 leading-relaxed">{req}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-slate-900 rounded-3xl p-10 text-white shadow-2xl">
+              <div className="bg-slate-900 dark:bg-slate-800 rounded-3xl p-10 text-white shadow-2xl">
                 <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
                   <FileText className="text-secondary w-7 h-7" /> Required Documents
                 </h2>
@@ -207,15 +207,15 @@ export function Admission() {
             </div>
 
             {/* Fees */}
-            <div className="py-8 border-t">
+            <div className="py-8 border-t dark:border-slate-800">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-black text-slate-900 mb-4 flex items-center justify-center gap-3">
+                <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-4 flex items-center justify-center gap-3">
                   <DollarSign className="text-primary w-8 h-8" /> Fee Structure
                 </h2>
-                <p className="text-gray-500 font-medium">Affordable technical education for a better future.</p>
+                <p className="text-gray-500 dark:text-slate-400 font-medium">Affordable technical education for a better future.</p>
               </div>
               
-              <div className="max-w-4xl mx-auto overflow-hidden rounded-2xl border bg-white shadow-sm font-semibold">
+              <div className="max-w-4xl mx-auto overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 shadow-sm font-semibold">
                 <table className="w-full text-left">
                   <thead className="bg-primary text-white font-bold">
                     <tr>
@@ -223,7 +223,7 @@ export function Admission() {
                       <th className="p-6">Amount (BDT)</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y text-slate-700">
+                  <tbody className="divide-y dark:divide-slate-800 text-slate-700 dark:text-slate-300">
                     <tr>
                       <td className="p-6 font-semibold">Admission Form Fee</td>
                       <td className="p-6">500 /-</td>
@@ -240,7 +240,7 @@ export function Admission() {
                       <td className="p-6 font-semibold">Semester Exam Fee (Per Semester)</td>
                       <td className="p-6">1,500 /-</td>
                     </tr>
-                    <tr className="bg-slate-50 font-bold text-primary">
+                    <tr className="bg-slate-50 dark:bg-slate-800 font-bold text-primary">
                       <td className="p-6">Total Semester Cost (Approx)</td>
                       <td className="p-6">25,000 /-</td>
                     </tr>
@@ -250,19 +250,19 @@ export function Admission() {
             </div>
 
             {/* FAQs */}
-            <div className="py-8 border-t">
+            <div className="py-8 border-t dark:border-slate-800">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-black text-slate-900 mb-4 flex items-center justify-center gap-3">
+                <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-4 flex items-center justify-center gap-3">
                   <HelpCircle className="text-primary w-8 h-8" /> Frequently Asked Questions
                 </h2>
-                <p className="text-gray-500 font-medium">Common questions about the CMPI admission process.</p>
+                <p className="text-gray-500 dark:text-slate-400 font-medium">Common questions about the CMPI admission process.</p>
               </div>
               
               <div className="max-w-3xl mx-auto space-y-4">
                 {admissionFaqs.map((faq, i) => (
-                  <div key={i} className="border rounded-2xl p-6 hover:bg-slate-50 transition-colors bg-white">
-                    <h4 className="font-bold text-lg text-slate-900 mb-2">{faq.q}</h4>
-                    <p className="text-gray-600 font-semibold text-sm leading-relaxed">{faq.a}</p>
+                  <div key={i} className="border border-slate-200 dark:border-slate-700 rounded-2xl p-6 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors bg-white dark:bg-slate-950">
+                    <h4 className="font-bold text-lg text-slate-900 dark:text-white mb-2">{faq.q}</h4>
+                    <p className="text-gray-600 dark:text-slate-400 font-semibold text-sm leading-relaxed">{faq.a}</p>
                   </div>
                 ))}
               </div>
@@ -272,17 +272,17 @@ export function Admission() {
 
         {/* 2. APPLY WIZARD VIEW */}
         {view === "apply" && (
-          <div className="mx-auto max-w-2xl bg-white border rounded-3xl p-8 shadow-sm">
+          <div className="mx-auto max-w-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 shadow-sm">
             {submitted ? (
               <div className="text-center py-6">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                  <Check className="h-8 w-8 text-green-600" />
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-500/10">
+                  <Check className="h-8 w-8 text-green-600 dark:text-green-400" />
                 </div>
-                <h2 className="text-2xl font-black text-green-700">Application Submitted!</h2>
-                <p className="mt-3 text-sm font-semibold text-slate-600 leading-relaxed">
-                  Your application has been received. A confirmation email was sent to <strong className="text-slate-800">{form.email}</strong>.
+                <h2 className="text-2xl font-black text-green-700 dark:text-green-400">Application Submitted!</h2>
+                <p className="mt-3 text-sm font-semibold text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Your application has been received. A confirmation email was sent to <strong className="text-slate-800 dark:text-slate-200">{form.email}</strong>.
                 </p>
-                <div className="mt-4 p-4 bg-slate-50 border rounded-2xl inline-block">
+                <div className="mt-4 p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl inline-block">
                   <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Application ID</p>
                   <p className="text-xl font-black text-primary font-mono mt-1">{serverAppId}</p>
                 </div>
@@ -310,11 +310,11 @@ export function Admission() {
                   {[1, 2, 3, 4].map((s) => (
                     <div key={s} className="flex items-center gap-2">
                       <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-black transition ${
-                        step >= s ? "bg-primary text-white" : "bg-slate-100 text-slate-400"
+                        step >= s ? "bg-primary text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-400"
                       }`}>
                         {s}
                       </div>
-                      {s < 4 && <div className={`h-0.5 w-8 ${step > s ? "bg-primary" : "bg-slate-200"}`} />}
+                      {s < 4 && <div className={`h-0.5 w-8 ${step > s ? "bg-primary" : "bg-slate-200 dark:bg-slate-700"}`} />}
                     </div>
                   ))}
                 </div>
@@ -323,35 +323,35 @@ export function Admission() {
                   {/* Step 1: Personal Info */}
                   {step === 1 && (
                     <div className="space-y-4">
-                      <h3 className="text-lg font-black text-slate-900 border-b pb-2">Personal Information</h3>
+                      <h3 className="text-lg font-black text-slate-900 dark:text-white border-b dark:border-slate-800 pb-2">Personal Information</h3>
                       <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
-                          <label className="text-sm font-semibold">Full Name</label>
+                          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Full Name</label>
                           <Input value={form.name} onChange={(e) => update("name", e.target.value)} placeholder="Your full name" required />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-sm font-semibold">Email</label>
+                          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Email</label>
                           <Input type="email" value={form.email} onChange={(e) => update("email", e.target.value)} placeholder="you@example.com" required />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-sm font-semibold">Phone</label>
+                          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Phone</label>
                           <Input value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="+880 1XXX-XXXXXX" required />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-sm font-semibold">Blood Group</label>
+                          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Blood Group</label>
                           <Input value={form.bloodGroup} onChange={(e) => update("bloodGroup", e.target.value)} placeholder="A+, B+, O+, etc." />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-sm font-semibold">Father's Name</label>
+                          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Father's Name</label>
                           <Input value={form.fatherName} onChange={(e) => update("fatherName", e.target.value)} required />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-sm font-semibold">Mother's Name</label>
+                          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Mother's Name</label>
                           <Input value={form.motherName} onChange={(e) => update("motherName", e.target.value)} required />
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-sm font-semibold">Address</label>
+                        <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Address</label>
                         <Input value={form.address} onChange={(e) => update("address", e.target.value)} placeholder="Village/Thana/District" required />
                       </div>
                       <Button type="button" className="w-full" onClick={() => setStep(2)}>
@@ -363,14 +363,14 @@ export function Admission() {
                   {/* Step 2: Academic Info */}
                   {step === 2 && (
                     <div className="space-y-4">
-                      <h3 className="text-lg font-black text-slate-900 border-b pb-2">Academic Choice</h3>
+                      <h3 className="text-lg font-black text-slate-900 dark:text-white border-b dark:border-slate-800 pb-2">Academic Choice</h3>
                       <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
-                          <label className="text-sm font-semibold">Admission Session</label>
+                          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Admission Session</label>
                           <select 
                             value={form.session} 
                             onChange={(e) => update("session", e.target.value)} 
-                            className="flex h-11 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold outline-none focus:ring-2 focus:ring-primary"
+                            className="flex h-11 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold outline-none focus:ring-2 focus:ring-primary text-slate-900 dark:text-white"
                             required
                           >
                             <option value="">Select session</option>
@@ -380,11 +380,11 @@ export function Admission() {
                           </select>
                         </div>
                         <div className="space-y-2">
-                          <label className="text-sm font-semibold">Preferred Department</label>
+                          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Preferred Department</label>
                           <select 
                             value={form.department} 
                             onChange={(e) => update("department", e.target.value)} 
-                            className="flex h-11 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold outline-none focus:ring-2 focus:ring-primary"
+                            className="flex h-11 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold outline-none focus:ring-2 focus:ring-primary text-slate-900 dark:text-white"
                             required
                           >
                             <option value="">Select department</option>
@@ -392,11 +392,11 @@ export function Admission() {
                           </select>
                         </div>
                         <div className="space-y-2">
-                          <label className="text-sm font-semibold">SSC/Equivalent GPA</label>
+                          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">SSC/Equivalent GPA</label>
                           <Input value={form.sscGpa} onChange={(e) => update("sscGpa", e.target.value)} placeholder="e.g. 4.50" required />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-sm font-semibold">HSC/Equivalent GPA (optional)</label>
+                          <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">HSC/Equivalent GPA (optional)</label>
                           <Input value={form.hscGpa} onChange={(e) => update("hscGpa", e.target.value)} placeholder="e.g. 4.00" />
                         </div>
                       </div>
@@ -415,19 +415,19 @@ export function Admission() {
                   {/* Step 3: Scanned Uploads */}
                   {step === 3 && (
                     <div className="space-y-4">
-                      <h3 className="text-lg font-black text-slate-900 border-b pb-2">Document Scans</h3>
+                      <h3 className="text-lg font-black text-slate-900 dark:text-white border-b dark:border-slate-800 pb-2">Document Scans</h3>
                       <p className="text-xs text-slate-400 font-semibold mb-4 leading-relaxed">
                         Upload digital files of the following credentials. Scans are optional and can be supplied physically at the admissions office.
                       </p>
 
                       <div className="grid gap-3">
                         {requiredDocs.map((doc) => (
-                          <div key={doc.key} className="flex items-center gap-3 rounded-2xl border p-4 bg-slate-50/50">
+                          <div key={doc.key} className="flex items-center gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 p-4 bg-slate-50/50 dark:bg-slate-800/50">
                             <Upload className="h-5 w-5 shrink-0 text-slate-400" />
                             <div className="flex-1 min-w-0">
-                              <div className="text-sm font-bold text-slate-800">{doc.label}</div>
+                              <div className="text-sm font-bold text-slate-800 dark:text-slate-200">{doc.label}</div>
                               {docs[doc.key] && (
-                                <div className="text-xs text-green-600 font-bold mt-1 truncate">{docs[doc.key].name}</div>
+                                <div className="text-xs text-green-600 dark:text-green-400 font-bold mt-1 truncate">{docs[doc.key].name}</div>
                               )}
                             </div>
                             <label className="cursor-pointer shrink-0 rounded-xl border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-bold text-primary hover:bg-primary/10">
@@ -457,19 +457,19 @@ export function Admission() {
                   {/* Step 4: Submit Review */}
                   {step === 4 && (
                     <div className="space-y-4">
-                      <h3 className="text-lg font-black text-slate-900 border-b pb-2">Review Details</h3>
+                      <h3 className="text-lg font-black text-slate-900 dark:text-white border-b dark:border-slate-800 pb-2">Review Details</h3>
                       <div className="grid gap-2 text-sm font-semibold">
-                        <div className="flex justify-between rounded-xl bg-slate-50 px-4 py-2.5 border"><span className="text-slate-400">Name</span><span className="font-bold text-slate-850">{form.name || "-"}</span></div>
-                        <div className="flex justify-between rounded-xl bg-slate-50 px-4 py-2.5 border"><span className="text-slate-400">Email</span><span className="font-bold text-slate-850">{form.email || "-"}</span></div>
-                        <div className="flex justify-between rounded-xl bg-slate-50 px-4 py-2.5 border"><span className="text-slate-400">Phone</span><span className="font-bold text-slate-850">{form.phone || "-"}</span></div>
-                        <div className="flex justify-between rounded-xl bg-slate-50 px-4 py-2.5 border"><span className="text-slate-400">Session</span><span className="font-bold text-slate-850">{form.session || "-"}</span></div>
-                        <div className="flex justify-between rounded-xl bg-slate-50 px-4 py-2.5 border"><span className="text-slate-400">Department</span><span className="font-bold text-slate-850 text-right">{form.department || "-"}</span></div>
-                        <div className="flex justify-between rounded-xl bg-slate-50 px-4 py-2.5 border"><span className="text-slate-400">SSC GPA</span><span className="font-bold text-slate-850">{form.sscGpa || "-"}</span></div>
-                        {form.hscGpa && <div className="flex justify-between rounded-xl bg-slate-50 px-4 py-2.5 border"><span className="text-slate-400">HSC GPA</span><span className="font-bold text-slate-850">{form.hscGpa}</span></div>}
-                        <div className="flex justify-between rounded-xl bg-slate-50 px-4 py-2.5 border"><span className="text-slate-400">Address</span><span className="font-bold text-slate-850 text-right">{form.address || "-"}</span></div>
-                        <div className="flex justify-between rounded-xl bg-slate-50 px-4 py-2.5 border">
+                        <div className="flex justify-between rounded-xl bg-slate-50 dark:bg-slate-800 px-4 py-2.5 border border-slate-200 dark:border-slate-700"><span className="text-slate-400">Name</span><span className="font-bold text-slate-850 dark:text-slate-200">{form.name || "-"}</span></div>
+                        <div className="flex justify-between rounded-xl bg-slate-50 dark:bg-slate-800 px-4 py-2.5 border border-slate-200 dark:border-slate-700"><span className="text-slate-400">Email</span><span className="font-bold text-slate-850 dark:text-slate-200">{form.email || "-"}</span></div>
+                        <div className="flex justify-between rounded-xl bg-slate-50 dark:bg-slate-800 px-4 py-2.5 border border-slate-200 dark:border-slate-700"><span className="text-slate-400">Phone</span><span className="font-bold text-slate-850 dark:text-slate-200">{form.phone || "-"}</span></div>
+                        <div className="flex justify-between rounded-xl bg-slate-50 dark:bg-slate-800 px-4 py-2.5 border border-slate-200 dark:border-slate-700"><span className="text-slate-400">Session</span><span className="font-bold text-slate-850 dark:text-slate-200">{form.session || "-"}</span></div>
+                        <div className="flex justify-between rounded-xl bg-slate-50 dark:bg-slate-800 px-4 py-2.5 border border-slate-200 dark:border-slate-700"><span className="text-slate-400">Department</span><span className="font-bold text-slate-850 dark:text-slate-200 text-right">{form.department || "-"}</span></div>
+                        <div className="flex justify-between rounded-xl bg-slate-50 dark:bg-slate-800 px-4 py-2.5 border border-slate-200 dark:border-slate-700"><span className="text-slate-400">SSC GPA</span><span className="font-bold text-slate-850 dark:text-slate-200">{form.sscGpa || "-"}</span></div>
+                        {form.hscGpa && <div className="flex justify-between rounded-xl bg-slate-50 dark:bg-slate-800 px-4 py-2.5 border border-slate-200 dark:border-slate-700"><span className="text-slate-400">HSC GPA</span><span className="font-bold text-slate-850 dark:text-slate-200">{form.hscGpa}</span></div>}
+                        <div className="flex justify-between rounded-xl bg-slate-50 dark:bg-slate-800 px-4 py-2.5 border border-slate-200 dark:border-slate-700"><span className="text-slate-400">Address</span><span className="font-bold text-slate-850 dark:text-slate-200 text-right">{form.address || "-"}</span></div>
+                        <div className="flex justify-between rounded-xl bg-slate-50 dark:bg-slate-800 px-4 py-2.5 border border-slate-200 dark:border-slate-700">
                           <span className="text-slate-400">Uploaded Files</span>
-                          <span className="font-bold text-slate-850">{Object.values(docs).filter(Boolean).length} / {requiredDocs.length}</span>
+                          <span className="font-bold text-slate-850 dark:text-slate-200">{Object.values(docs).filter(Boolean).length} / {requiredDocs.length}</span>
                         </div>
                       </div>
                       <div className="flex gap-3 pt-4">
@@ -490,8 +490,8 @@ export function Admission() {
 
         {/* 3. TRACKING VIEW */}
         {view === "track" && (
-          <div className="mx-auto max-w-lg bg-white border rounded-3xl p-8 shadow-sm">
-            <h3 className="mb-4 text-xl font-black text-slate-900">Track Your Application</h3>
+          <div className="mx-auto max-w-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 shadow-sm">
+            <h3 className="mb-4 text-xl font-black text-slate-900 dark:text-white">Track Your Application</h3>
             <p className="text-xs text-slate-400 font-semibold mb-6 leading-relaxed">
               Enter the unique application code issued upon submitting your online form.
             </p>
@@ -507,33 +507,33 @@ export function Admission() {
               </Button>
             </div>
             {trackResult && (
-              <div className="mt-6 rounded-2xl border p-5 bg-slate-50/50">
-                <div className="flex items-center justify-between border-b pb-3 mb-4">
-                  <span className="font-mono font-bold text-slate-900">{trackResult.application_id}</span>
+              <div className="mt-6 rounded-2xl border border-slate-200 dark:border-slate-700 p-5 bg-slate-50/50 dark:bg-slate-800/50">
+                <div className="flex items-center justify-between border-b dark:border-slate-700 pb-3 mb-4">
+                  <span className="font-mono font-bold text-slate-900 dark:text-white">{trackResult.application_id}</span>
                   <span className={`rounded-full border px-3.5 py-1 text-xs font-black uppercase tracking-wider ${statusColor(trackResult.status)}`}>
                     {trackResult.status}
                   </span>
                 </div>
-                <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-sm font-semibold text-slate-700">
+                <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-sm font-semibold text-slate-700 dark:text-slate-300">
                   <div><span className="text-slate-400">Name:</span></div>
-                  <div><span className="text-slate-800">{trackResult.name}</span></div>
+                  <div><span className="text-slate-800 dark:text-slate-200">{trackResult.name}</span></div>
                   
                   <div><span className="text-slate-400">Choice:</span></div>
-                  <div className="line-clamp-1"><span className="text-slate-800">{trackResult.department}</span></div>
+                  <div className="line-clamp-1"><span className="text-slate-800 dark:text-slate-200">{trackResult.department}</span></div>
                   
                   <div><span className="text-slate-400">Session:</span></div>
-                  <div><span className="text-slate-800">{trackResult.session || "—"}</span></div>
+                  <div><span className="text-slate-800 dark:text-slate-200">{trackResult.session || "—"}</span></div>
                   
                   <div><span className="text-slate-400">Submitted:</span></div>
-                  <div><span className="text-slate-800">{new Date(trackResult.created_at).toLocaleDateString("en-GB", {
+                  <div><span className="text-slate-800 dark:text-slate-200">{new Date(trackResult.created_at).toLocaleDateString("en-GB", {
                     day: "2-digit",
                     month: "short",
                     year: "numeric",
                   })}</span></div>
                 </div>
                 {trackResult.documents && (
-                  <div className="mt-4 pt-3 border-t text-xs font-semibold text-slate-500">
-                    Scans uploaded: <strong className="text-slate-800">{trackResult.documents.length}/6 documents</strong>
+                  <div className="mt-4 pt-3 border-t dark:border-slate-700 text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    Scans uploaded: <strong className="text-slate-800 dark:text-slate-200">{trackResult.documents.length}/6 documents</strong>
                   </div>
                 )}
               </div>

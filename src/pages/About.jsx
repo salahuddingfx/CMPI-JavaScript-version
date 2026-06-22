@@ -74,16 +74,16 @@ const About = () => (
     </section>
 
     {/* Stats Bar */}
-    <section className="bg-white border-b">
+    <section className="bg-white dark:bg-slate-950 border-b dark:border-slate-800">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-100">
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-100 dark:divide-slate-800">
           {stats.map((s, i) => {
             const Icon = s.icon;
             return (
               <motion.div key={i} {...fadeUp(i * 0.1)} className="py-8 px-6 text-center">
                 <Icon className="w-6 h-6 text-primary mx-auto mb-2" />
-                <p className="text-3xl font-black text-slate-900">{s.value}</p>
-                <p className="text-sm font-semibold text-slate-500 mt-1">{s.label}</p>
+                <p className="text-3xl font-black text-slate-900 dark:text-white">{s.value}</p>
+                <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
               </motion.div>
             );
           })}
@@ -92,30 +92,30 @@ const About = () => (
     </section>
 
     {/* Mission & Vision */}
-    <section className="py-24 bg-slate-50">
+    <section className="py-24 bg-slate-50 dark:bg-slate-900">
       <div className="container mx-auto px-4">
         <motion.div {...fadeUp()} className="text-center mb-16">
-          <h2 className="text-4xl font-black text-slate-900 mb-4">Our Purpose</h2>
-          <p className="text-slate-500 max-w-xl mx-auto">What drives us every day.</p>
+          <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4">Our Purpose</h2>
+          <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto">What drives us every day.</p>
         </motion.div>
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          <motion.div {...fadeUp(0.1)} className="bg-white rounded-3xl p-10 border border-slate-100 shadow-sm hover:shadow-lg transition-shadow group">
+          <motion.div {...fadeUp(0.1)} className="bg-white dark:bg-slate-950 rounded-3xl p-10 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-lg transition-shadow group">
             <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-secondary transition-colors">
               <Target className="w-7 h-7 text-primary group-hover:text-secondary transition-colors" />
             </div>
-            <h3 className="text-2xl font-black text-slate-900 mb-4">Our Mission</h3>
-            <p className="text-slate-600 leading-relaxed">
+            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Our Mission</h3>
+            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
               To provide high-quality technical education that empowers students with the skills,
               knowledge, and ethical values needed to excel in a rapidly evolving technological world.
               We strive to bridge the gap between academia and industry through practical, hands-on learning.
             </p>
           </motion.div>
-          <motion.div {...fadeUp(0.2)} className="bg-white rounded-3xl p-10 border border-slate-100 shadow-sm hover:shadow-lg transition-shadow group">
+          <motion.div {...fadeUp(0.2)} className="bg-white dark:bg-slate-950 rounded-3xl p-10 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-lg transition-shadow group">
             <div className="w-14 h-14 bg-secondary/20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-secondary transition-colors">
               <Eye className="w-7 h-7 text-secondary" />
             </div>
-            <h3 className="text-2xl font-black text-slate-900 mb-4">Our Vision</h3>
-            <p className="text-slate-600 leading-relaxed">
+            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Our Vision</h3>
+            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
               To be the most respected and innovative polytechnic institute in Bangladesh,
               recognized globally for producing competent, creative, and ethically grounded
               technical professionals who contribute meaningfully to national development.
@@ -136,26 +136,26 @@ const About = () => (
     </section>
 
     {/* History Timeline */}
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-white dark:bg-slate-950">
       <div className="container mx-auto px-4">
         <motion.div {...fadeUp()} className="text-center mb-16">
           <span className="inline-block px-4 py-1 bg-primary/10 text-primary text-sm font-bold rounded-full mb-4">Our Journey</span>
-          <h2 className="text-4xl font-black text-slate-900 mb-4">30 Years of History</h2>
-          <p className="text-slate-500 max-w-xl mx-auto">Milestones that shaped who we are today.</p>
+          <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4">30 Years of History</h2>
+          <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto">Milestones that shaped who we are today.</p>
         </motion.div>
         <div className="max-w-3xl mx-auto">
           <div className="relative">
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-slate-100" />
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-slate-100 dark:bg-slate-800" />
             <div className="space-y-10">
               {timeline.map((item, i) => (
                 <motion.div key={i} {...fadeUp(i * 0.1)} className="flex gap-8 items-start group">
                   <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center shrink-0 relative z-10 shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
                     <Flag className="w-6 h-6 text-secondary" />
                   </div>
-                  <div className="flex-1 bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                  <div className="flex-1 bg-slate-50 dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800">
                     <span className="text-xs font-black text-primary uppercase tracking-wider">{item.year}</span>
-                    <h3 className="text-lg font-black text-slate-900 mt-1 mb-2">{item.title}</h3>
-                    <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+                    <h3 className="text-lg font-black text-slate-900 dark:text-white mt-1 mb-2">{item.title}</h3>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -166,23 +166,23 @@ const About = () => (
     </section>
 
     {/* Administration */}
-    <section className="py-24 bg-slate-50">
+    <section className="py-24 bg-slate-50 dark:bg-slate-900">
       <div className="container mx-auto px-4">
         <motion.div {...fadeUp()} className="text-center mb-16">
-          <h2 className="text-4xl font-black text-slate-900 mb-4">Administration</h2>
-          <p className="text-slate-500 max-w-xl mx-auto">Meet the leadership guiding CMPI forward.</p>
+          <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4">Administration</h2>
+          <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto">Meet the leadership guiding CMPI forward.</p>
         </motion.div>
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {administration.map((person, i) => (
-            <motion.div key={i} {...fadeUp(i * 0.15)} className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+            <motion.div key={i} {...fadeUp(i * 0.15)} className="bg-white dark:bg-slate-950 rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group">
               <div className="h-64 overflow-hidden">
                 <img src={person.image} alt={person.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="p-8">
                 <span className="text-xs font-black uppercase tracking-widest text-primary">{person.dept}</span>
-                <h3 className="text-xl font-black text-slate-900 mt-1 mb-1">{person.name}</h3>
-                <p className="text-sm font-bold text-slate-500 mb-4">{person.title}</p>
-                <p className="text-slate-600 text-sm italic leading-relaxed">"{person.message}"</p>
+                <h3 className="text-xl font-black text-slate-900 dark:text-white mt-1 mb-1">{person.name}</h3>
+                <p className="text-sm font-bold text-slate-500 dark:text-slate-400 mb-4">{person.title}</p>
+                <p className="text-slate-600 dark:text-slate-400 text-sm italic leading-relaxed">"{person.message}"</p>
               </div>
             </motion.div>
           ))}
@@ -191,14 +191,14 @@ const About = () => (
     </section>
 
     {/* Accreditation */}
-    <section className="py-20 bg-white border-t">
+    <section className="py-20 bg-white dark:bg-slate-950 border-t dark:border-slate-800">
       <div className="container mx-auto px-4 text-center">
         <motion.div {...fadeUp()}>
-          <h2 className="text-2xl font-black text-slate-900 mb-2">Accreditation & Recognition</h2>
-          <p className="text-slate-500 mb-10">CMPI operates under full government and BTEB accreditation.</p>
+          <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Accreditation & Recognition</h2>
+          <p className="text-slate-500 dark:text-slate-400 mb-10">CMPI operates under full government and BTEB accreditation.</p>
           <div className="flex flex-wrap justify-center gap-4">
             {['BTEB Accredited', 'Ministry of Education', 'Government Approved', 'ISO Compliant Curriculum'].map((badge, i) => (
-              <span key={i} className="flex items-center gap-2 px-5 py-3 bg-slate-50 border border-slate-200 rounded-full text-sm font-bold text-slate-700">
+              <span key={i} className="flex items-center gap-2 px-5 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-bold text-slate-700 dark:text-slate-300">
                 <Award className="w-4 h-4 text-primary" /> {badge}
               </span>
             ))}
