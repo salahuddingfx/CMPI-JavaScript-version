@@ -181,7 +181,7 @@ export function Syllabus() {
               const totalMarksSum = semSubjects.reduce((sum, s) => sum + Number(s.total_marks ?? 0), 0);
 
               return (
-                <div key={sem} className="rounded-2xl border border-slate-200 bg-card shadow-xl overflow-hidden backdrop-blur-md">
+                <div key={sem} className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-card shadow-xl overflow-hidden backdrop-blur-md">
                   {/* Semester Header */}
                   <div className="flex items-center justify-between bg-primary px-6 py-4 border-b">
                     <div>
@@ -203,7 +203,7 @@ export function Syllabus() {
                         <div className="overflow-x-auto">
                           <table className="w-full text-left text-xs sm:text-sm border-collapse">
                             <thead>
-                              <tr className="border-b bg-slate-50 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                              <tr className="border-b bg-slate-50 dark:bg-slate-800 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                                 <th className="px-3 py-2.5">Code</th>
                                 <th className="px-3 py-2.5">Subject Name</th>
                                 <th className="px-3 py-2.5 text-center">Credits</th>
@@ -214,10 +214,10 @@ export function Syllabus() {
                             </thead>
                             <tbody className="divide-y font-semibold">
                               {semSubjects.map((s) => (
-                                <tr key={s.subject_code} className="hover:bg-slate-50/50 font-medium">
+                                <tr key={s.subject_code} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 font-medium">
                                   <td className="px-3 py-2.5 font-mono text-xs text-primary font-bold">{s.subject_code}</td>
-                                  <td className="px-3 py-2.5 text-slate-800 font-semibold">{s.subject_name}</td>
-                                  <td className="px-3 py-2.5 text-center font-extrabold text-slate-900">{s.credit}</td>
+                                  <td className="px-3 py-2.5 text-slate-800 dark:text-slate-200 font-semibold">{s.subject_name}</td>
+                                  <td className="px-3 py-2.5 text-center font-extrabold text-slate-900 dark:text-white">{s.credit}</td>
                                   <td className="px-3 py-2.5 text-center text-slate-500 hidden sm:table-cell">{s.theory_marks ?? 0}</td>
                                   <td className="px-3 py-2.5 text-center text-slate-500 hidden sm:table-cell">{s.practical_marks ?? 0}</td>
                                   <td className="px-3 py-2.5 text-center font-bold text-primary">{s.total_marks ?? 0}</td>
