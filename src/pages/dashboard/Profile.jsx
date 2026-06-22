@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Camera, User, Mail, Phone, Hash, Building2, Calendar, Edit3, Save, X, Heart, Award, Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -26,12 +26,15 @@ const Profile = () => {
   });
 
   const storedUserStr = localStorage.getItem("cmpi_user") || localStorage.getItem("cmpi-user");
-  const storedUser = useMemo(() => storedUserStr ? JSON.parse(storedUserStr) : null, []);
+  const storedUser = storedUserStr ? JSON.parse(storedUserStr) : null;
 
   useEffect(() => {
-    setLoading(true);
-    getStudentProfile()
-      .then((data) => {
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      try {
+        const data = await getStudentProfile();
+        if (cancelled) return;
         const u = data.user || data;
         setForm({
           name: u.name || '',
@@ -45,9 +48,8 @@ const Profile = () => {
           session: u.session || '',
           email: u.email || '',
         });
-      })
-      .catch(() => {
-        // Fallback to authUser context or localStorage
+      } catch {
+        if (cancelled) return;
         const u = authUser || storedUser;
         if (u) {
           setForm({
@@ -63,9 +65,12 @@ const Profile = () => {
             email: u.email || '',
           });
         }
-      })
-      .finally(() => setLoading(false));
-  }, [authUser]);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   const handleSave = async () => {
     setSaving(true);

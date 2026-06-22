@@ -56,7 +56,7 @@ const Settings = () => {
     resolver: zodResolver(passwordSchema),
   });
 
-  const onPasswordSubmit = (data) => {
+  const onPasswordSubmit = () => {
     toast.success('Password updated successfully!');
     reset();
   };

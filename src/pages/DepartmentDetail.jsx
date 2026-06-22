@@ -23,8 +23,8 @@ const DepartmentDetail = () => {
   const [subjects, setSubjects] = useState([]);
   const [subjectsLoading, setSubjectsLoading] = useState(true);
 
-  const departments = data?.departments || [];
-  const faculty = data?.faculty || [];
+  const departments = useMemo(() => data?.departments || [], [data?.departments]);
+  const faculty = useMemo(() => data?.faculty || [], [data?.faculty]);
 
   // Find department by slug or ID
   const department = useMemo(() => {
@@ -75,7 +75,6 @@ const DepartmentDetail = () => {
   const availableSemesters = SEM_ORDER.filter((s) => (groupedSubjects[s]?.length ?? 0) > 0);
 
   // Parse arrays safely
-  const objectives = Array.isArray(department.objectives) ? department.objectives : JSON.parse(department.objectives || '[]');
   const labs = Array.isArray(department.labs) ? department.labs : JSON.parse(department.labs || '[]');
   const achievements = Array.isArray(department.achievements) ? department.achievements : JSON.parse(department.achievements || '[]');
   const careerOpportunities = Array.isArray(department.career_opportunities) ? department.career_opportunities : JSON.parse(department.career_opportunities || '[]');

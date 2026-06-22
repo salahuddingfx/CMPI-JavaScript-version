@@ -7,7 +7,7 @@ import Loader from '@/components/Loader';
 import { Search, Calendar, Bell, FileText, Filter, ArrowRight } from 'lucide-react';
 
 const NoticeBoard = () => {
-  const { data, loading, error } = useInstituteContext();
+  const { data, loading } = useInstituteContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 

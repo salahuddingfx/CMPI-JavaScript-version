@@ -43,11 +43,20 @@ export function ClassRoutine() {
   }
 
   useEffect(() => {
-    loadRoutines();
-    const interval = setInterval(() => {
-      loadRoutines(true);
-    }, 15000);
-    return () => clearInterval(interval);
+    let cancelled = false;
+    async function load(isBackground = false) {
+      if (!isBackground) setLoading(true);
+      try {
+        const response = await api.get("/class-routines");
+        if (!cancelled) setRoutines(response.data || response || []);
+      } catch (err) {
+        console.error("Failed to load routines", err);
+      }
+      if (!cancelled && !isBackground) setLoading(false);
+    }
+    load();
+    const interval = setInterval(() => load(true), 15000);
+    return () => { cancelled = true; clearInterval(interval); };
   }, []);
 
   const currentDeptRoutines = routines.filter(

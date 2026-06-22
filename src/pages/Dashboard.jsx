@@ -42,7 +42,6 @@ const Dashboard = () => {
   const user = data?.user || authUser;
   const courses = data?.courses || [];
   const courseResults = data?.courseResults || [];
-  const bills = data?.bills || [];
 
   const isPending = user?.status === "pending";
 
