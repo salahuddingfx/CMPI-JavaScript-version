@@ -49,15 +49,6 @@ export function ClassRoutine() {
     }, 15000);
     return () => clearInterval(interval);
   }, []);
-    if (!isBackground) setLoading(true);
-    try {
-      const response = await api.get("/class-routines");
-      setRoutines(response.data || response || []);
-    } catch (err) {
-      console.error("Failed to load routines", err);
-    }
-    if (!isBackground) setLoading(false);
-  }
 
   const currentDeptRoutines = routines.filter(
     (r) => r.department === deptMap[dept]
