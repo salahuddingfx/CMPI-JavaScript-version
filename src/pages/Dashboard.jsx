@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Book, FileText, CheckCircle2, Clock, Calendar, TrendingUp, AlertTriangle } from 'lucide-react';
+import { Book, FileText, CheckCircle2, Calendar, TrendingUp, AlertTriangle } from 'lucide-react';
 import { XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, LineChart, Line, PieChart, Pie, Cell } from "recharts";
 import { useAuth } from '@/contexts/AuthContext';
 import { getDashboard, getNotices } from '@/services/api';
