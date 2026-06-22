@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import PageTransition from '@/components/PageTransition';
 import SEO from '@/components/SEO';
 import { Search, Mail, Book, GraduationCap, Filter } from 'lucide-react';
@@ -146,9 +147,9 @@ const Faculty = () => {
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-10">
               We are always looking for passionate engineers and educators to join our growing institute.
             </p>
-            <a href="/contact" className="inline-block px-10 py-4 bg-secondary text-primary font-bold rounded-xl hover:bg-white transition-all">
+            <Link to="/contact" className="inline-block px-10 py-4 bg-secondary text-primary font-bold rounded-xl hover:bg-white transition-all">
               Check Career Opportunities
-            </a>
+            </Link>
             
             {/* Background elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl"></div>
