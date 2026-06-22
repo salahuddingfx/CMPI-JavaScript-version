@@ -149,12 +149,12 @@ export function Syllabus() {
         {loading ? (
           <div className="mx-auto max-w-4xl space-y-6">
             {[1, 2, 3].map((n) => (
-              <div key={n} className="animate-pulse rounded-2xl border border-slate-200 bg-card p-6 shadow-md">
-                <div className="h-6 w-1/4 rounded bg-slate-200 mb-4"></div>
+              <div key={n} className="animate-pulse rounded-2xl border border-slate-200 dark:border-slate-700 bg-card p-6 shadow-md">
+                <div className="h-6 w-1/4 rounded bg-slate-200 dark:bg-slate-700 mb-4"></div>
                 <div className="space-y-3">
-                  <div className="h-4 w-full rounded bg-slate-200"></div>
-                  <div className="h-4 w-5/6 rounded bg-slate-200"></div>
-                  <div className="h-4 w-4/6 rounded bg-slate-200"></div>
+                  <div className="h-4 w-full rounded bg-slate-200 dark:bg-slate-700"></div>
+                  <div className="h-4 w-5/6 rounded bg-slate-200 dark:bg-slate-700"></div>
+                  <div className="h-4 w-4/6 rounded bg-slate-200 dark:bg-slate-700"></div>
                 </div>
               </div>
             ))}
