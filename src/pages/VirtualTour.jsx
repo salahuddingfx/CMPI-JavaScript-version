@@ -18,7 +18,6 @@ const VirtualTour = () => {
     <PageTransition>
       <SEO title="Virtual Campus Tour" description="Take a 360 virtual tour of Cox's Bazar Model Polytechnic Institute." />
       
-      {/* Parallax Hero */}
       <section ref={containerRef} className="relative h-screen bg-slate-900 overflow-hidden flex items-center justify-center">
         <motion.div style={{ y: y1 }} className="absolute inset-0 z-0">
           <img 
@@ -42,15 +41,14 @@ const VirtualTour = () => {
           </motion.div>
         </div>
 
-        <motion.div style={{ y: y2 }} className="absolute -bottom-32 left-0 w-full h-64 bg-gradient-to-t from-slate-50 to-transparent z-10" />
+        <motion.div style={{ y: y2 }} className="absolute -bottom-32 left-0 w-full h-64 bg-gradient-to-t from-slate-50 dark:from-slate-900 to-transparent z-10" />
       </section>
 
-      {/* Interactive Map Area (Simulated) */}
-      <section className="py-24 bg-slate-50 relative z-20">
+      <section className="py-24 bg-slate-50 dark:bg-slate-900 relative z-20">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-extrabold text-slate-900 mb-12">Campus Map 360°</h2>
+          <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-12">Campus Map 360°</h2>
           
-          <div className="w-full max-w-5xl mx-auto h-[600px] bg-slate-900 rounded-[3rem] overflow-hidden shadow-2xl relative group border border-slate-200 cursor-pointer">
+          <div className="w-full max-w-5xl mx-auto h-[600px] bg-slate-900 rounded-[3rem] overflow-hidden shadow-2xl relative group border border-slate-200 dark:border-slate-700 cursor-pointer">
             <img 
               src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=1200" 
               alt="Interactive Campus Map" 
@@ -62,7 +60,6 @@ const VirtualTour = () => {
                </div>
             </div>
             
-            {/* Hotspots */}
             <div className="absolute top-1/4 left-1/4 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold shadow-lg animate-bounce">1</div>
             <div className="absolute top-1/2 right-1/3 w-12 h-12 bg-secondary text-primary rounded-full flex items-center justify-center font-bold shadow-lg animate-bounce delay-100">2</div>
             <div className="absolute bottom-1/3 left-1/2 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold shadow-lg animate-bounce delay-200">3</div>
