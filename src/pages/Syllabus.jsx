@@ -227,7 +227,7 @@ export function Syllabus() {
                           </table>
 
                           {/* Dynamic Semester Summary Info */}
-                          <div className="bg-slate-50 rounded-xl border px-4 py-2.5 mt-4 flex justify-between items-center text-xs font-bold text-slate-500 flex-wrap gap-2">
+                          <div className="bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 px-4 py-2.5 mt-4 flex justify-between items-center text-xs font-bold text-slate-500 dark:text-slate-400 flex-wrap gap-2">
                             <span>{semSubjects.length} Total Subjects</span>
                             <div className="flex gap-4">
                               <span>Total Credits: <span className="text-primary font-black">{totalCredits}</span></span>
@@ -257,14 +257,14 @@ export function Syllabus() {
                     </div>
 
                     {/* PDF Side Zone */}
-                    <div className="border-t lg:border-t-0 lg:border-l p-6 flex flex-col items-center justify-center gap-4 min-w-[200px] bg-slate-50/50">
+                    <div className="border-t lg:border-t-0 lg:border-l p-6 flex flex-col items-center justify-center gap-4 min-w-[200px] bg-slate-50/50 dark:bg-slate-900/50">
                       {pdfUrl ? (
                         <>
                           <div className="flex flex-col items-center gap-1.5 text-center">
                             <div className="h-12 w-12 flex items-center justify-center rounded-2xl bg-primary/10 text-primary border shadow-sm">
                               <FileText className="h-6 w-6" />
                             </div>
-                            <h4 className="text-xs font-extrabold text-slate-800">Syllabus PDF</h4>
+                            <h4 className="text-xs font-extrabold text-slate-800 dark:text-slate-200">Syllabus PDF</h4>
                             <p className="text-[10px] text-emerald-600 font-extrabold uppercase tracking-wide bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">✓ Live Uploaded</p>
                           </div>
                           <div className="flex flex-col gap-2 w-full">
@@ -280,7 +280,7 @@ export function Syllabus() {
                             >
                               <Eye className="mr-1.5 h-3.5 w-3.5" /> Preview
                             </Button>
-                            <Button asChild size="sm" variant="outline" className="w-full rounded-xl font-bold bg-white">
+                            <Button asChild size="sm" variant="outline" className="w-full rounded-xl font-bold bg-white dark:bg-slate-800">
                               <a href={pdfUrl} download={`syllabus-${activeDept}-${sem}.pdf`}>
                                 <Download className="mr-1.5 h-3.5 w-3.5" /> Download
                               </a>
@@ -300,8 +300,8 @@ export function Syllabus() {
                       ) : (
                         <>
                           <div className="flex flex-col items-center gap-1.5 text-center">
-                            <Upload className="h-10 w-10 text-slate-300" />
-                            <h4 className="text-xs font-extrabold text-slate-500">Syllabus PDF</h4>
+                            <Upload className="h-10 w-10 text-slate-300 dark:text-slate-600" />
+                            <h4 className="text-xs font-extrabold text-slate-500 dark:text-slate-400">Syllabus PDF</h4>
                             <p className="text-[10px] text-slate-400 font-bold uppercase">No Document</p>
                           </div>
                           {isAdmin ? (
@@ -320,7 +320,7 @@ export function Syllabus() {
                               <Button
                                 size="sm"
                                 variant="outline"
-                                className="w-full rounded-xl font-bold border-dashed border-2 hover:border-solid bg-white"
+                                className="w-full rounded-xl font-bold border-dashed border-2 hover:border-solid bg-white dark:bg-slate-800"
                                 onClick={() => fileInputRefs.current[key]?.click()}
                               >
                                 <Upload className="mr-1.5 h-3.5 w-3.5" /> Upload PDF
