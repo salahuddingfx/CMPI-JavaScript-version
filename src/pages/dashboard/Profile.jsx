@@ -26,7 +26,7 @@ const Profile = () => {
   });
 
   const storedUserStr = localStorage.getItem("cmpi_user") || localStorage.getItem("cmpi-user");
-  const storedUser = storedUserStr ? JSON.parse(storedUserStr) : null;
+  const storedUser = useMemo(() => storedUserStr ? JSON.parse(storedUserStr) : null, []);
 
   useEffect(() => {
     setLoading(true);
