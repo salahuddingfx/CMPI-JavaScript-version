@@ -17,11 +17,11 @@ export const BTEB_SUBJECTS = {
   "26711": { name: "Basic Electricity", dept: "Shared" },
   "26811": { name: "Basic Electronics", dept: "Shared" },
   "27011": { name: "Workshop Technology", dept: "Shared" },
-  "27012": { name: "Basic Workshop Practice", dept: "Shared" },
+  // "27012" is defined below under Mechanical Technology (line 597)
   "27041": { name: "Engineering Mechanics", dept: "Shared" },
   "27051": { name: "Fluid Mechanics", dept: "Shared" },
   "27061": { name: "Strength of Materials", dept: "Shared" },
-  "26721": { name: "Electrical Circuits-I", dept: "Shared" },
+  // "26721" is defined below under Electrical Technology (line 372)
   "26833": { name: "Industrial Electronics", dept: "Shared" },
   "26842": { name: "Communication Engineering", dept: "Shared" },
   "26845": { name: "Digital Electronics", dept: "Shared" },
