@@ -82,11 +82,12 @@ const Contact = () => {
               <div>
                 <h3 className="text-xl font-bold text-slate-900 mb-4">Follow Us</h3>
                 <div className="flex gap-3">
-                  {[1, 2, 3, 4].map((i) => (
-                    <a key={i} href="#" className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all border border-slate-100">
-                      <Globe className="w-5 h-5" />
-                    </a>
-                  ))}
+                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all border border-slate-100" aria-label="Facebook">
+                    <Globe className="w-5 h-5" />
+                  </a>
+                  <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all border border-slate-100" aria-label="YouTube">
+                    <Globe className="w-5 h-5" />
+                  </a>
                 </div>
               </div>
             </div>

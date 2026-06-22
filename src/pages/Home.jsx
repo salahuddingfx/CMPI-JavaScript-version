@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import PageTransition from '@/components/PageTransition';
 import SEO from '@/components/SEO';
 import Hero from '@/components/home/Hero';
@@ -27,12 +28,12 @@ const Home = () => {
               Join CMPI today and get the skills you need for a successful career in technology.
             </p>
             <div className="flex justify-center gap-4">
-              <a href="/admission" className="px-8 py-3 bg-secondary text-primary font-bold rounded-md hover:bg-white transition-all">
+              <Link to="/admission" className="px-8 py-3 bg-secondary text-primary font-bold rounded-md hover:bg-white transition-all">
                 Admission Info
-              </a>
-              <a href="/contact" className="px-8 py-3 bg-white/10 border border-white/20 text-white font-bold rounded-md hover:bg-white/20 transition-all">
+              </Link>
+              <Link to="/contact" className="px-8 py-3 bg-white/10 border border-white/20 text-white font-bold rounded-md hover:bg-white/20 transition-all">
                 Contact Us
-              </a>
+              </Link>
             </div>
           </div>
         </section>
