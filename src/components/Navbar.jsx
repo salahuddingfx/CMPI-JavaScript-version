@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown, ArrowRight, Sun, Moon, User, LogOut, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -62,11 +62,9 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const prevLocation = useRef(location.pathname);
-  if (prevLocation.current !== location.pathname) {
-    prevLocation.current = location.pathname;
+  useEffect(() => {
     setIsOpen(false);
-  }
+  }, [location.pathname]);
 
   const toggleExpand = (name) => {
     setExpandedLink((prev) => (prev === name ? null : name));
