@@ -18,11 +18,12 @@ const Footer = () => {
               Cox's Bazar Model Polytechnic Institute is a premier technical institution committed to excellence in engineering and vocational education in the region.
             </p>
             <div className="flex gap-4">
-              {[1, 2, 3, 4].map((i) => (
-                <a key={i} href="#" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors">
-                  <Globe className="w-4 h-4" />
-                </a>
-              ))}
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors" aria-label="Facebook">
+                <Globe className="w-4 h-4" />
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors" aria-label="YouTube">
+                <Globe className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
@@ -33,19 +34,50 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3 text-sm">
               <li><Link to="/about" className="hover:text-primary transition-colors">About Us</Link></li>
-              <li><Link to="/academics" className="hover:text-primary transition-colors">Academics</Link></li>
-              <li><Link to="/admission" className="hover:text-primary transition-colors">Admission Information</Link></li>
-              <li><Link to="/virtual-tour" className="hover:text-primary transition-colors font-bold text-white">Campus Virtual Tour</Link></li>
+              <li><Link to="/principal" className="hover:text-primary transition-colors">Principal's Message</Link></li>
               <li><Link to="/faculty" className="hover:text-primary transition-colors">Faculty Members</Link></li>
-              <li><Link to="/notice-board" className="hover:text-primary transition-colors">Latest Notices</Link></li>
-              <li><a href="https://mail.cmpi.edu.bd" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors font-bold text-secondary">Webmail Login</a></li>
+              <li><Link to="/academics" className="hover:text-primary transition-colors">Academics</Link></li>
+              <li><Link to="/admission" className="hover:text-primary transition-colors">Admission</Link></li>
+              <li><Link to="/virtual-tour" className="hover:text-primary transition-colors font-bold text-white">Campus Virtual Tour</Link></li>
               <li><Link to="/contact" className="hover:text-primary transition-colors">Contact Us</Link></li>
+              <li><a href="https://mail.cmpi.edu.bd" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors font-bold text-secondary">Webmail Login</a></li>
             </ul>
           </div>
 
-          {/* Academics */}
+          {/* Student Resources */}
           <div>
             <h3 className="text-white font-bold mb-6 relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-12 after:h-1 after:bg-secondary">
+              Student Resources
+            </h3>
+            <ul className="space-y-3 text-sm">
+              <li><Link to="/student-corner" className="hover:text-primary transition-colors">Student Corner</Link></li>
+              <li><Link to="/notice-board" className="hover:text-primary transition-colors">Notice Board</Link></li>
+              <li><Link to="/syllabus" className="hover:text-primary transition-colors">Syllabus & Curriculum</Link></li>
+              <li><Link to="/class-routine" className="hover:text-primary transition-colors">Class Routine</Link></li>
+              <li><Link to="/exam-routine" className="hover:text-primary transition-colors">Exam Routine</Link></li>
+              <li><Link to="/results" className="hover:text-primary transition-colors">Check Results</Link></li>
+              <li><Link to="/library" className="hover:text-primary transition-colors">Library</Link></li>
+              <li><Link to="/clubs" className="hover:text-primary transition-colors">Student Clubs</Link></li>
+              <li><Link to="/scholarship" className="hover:text-primary transition-colors">Scholarships</Link></li>
+              <li><Link to="/placement" className="hover:text-primary transition-colors">Placement Cell</Link></li>
+              <li><Link to="/alumni" className="hover:text-primary transition-colors">Alumni Network</Link></li>
+            </ul>
+          </div>
+
+          {/* Campus & Legal */}
+          <div>
+            <h3 className="text-white font-bold mb-6 relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-12 after:h-1 after:bg-secondary">
+              Campus Life
+            </h3>
+            <ul className="space-y-3 text-sm">
+              <li><Link to="/events" className="hover:text-primary transition-colors">Events</Link></li>
+              <li><Link to="/blog" className="hover:text-primary transition-colors">Blog & News</Link></li>
+              <li><Link to="/gallery" className="hover:text-primary transition-colors">Gallery</Link></li>
+              <li><Link to="/tender" className="hover:text-primary transition-colors">Official Tenders</Link></li>
+              <li><Link to="/feedback" className="hover:text-primary transition-colors">Share Feedback</Link></li>
+              <li><Link to="/developer" className="hover:text-primary transition-colors">Developer Info</Link></li>
+            </ul>
+            <h3 className="text-white font-bold mt-8 mb-4 relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-12 after:h-1 after:bg-secondary">
               Departments
             </h3>
             <ul className="space-y-3 text-sm">
@@ -53,11 +85,8 @@ const Footer = () => {
               <li><Link to="/academics/civil-technology" className="hover:text-primary transition-colors">Civil Technology</Link></li>
               <li><Link to="/academics/electrical-technology" className="hover:text-primary transition-colors">Electrical Technology</Link></li>
             </ul>
-          </div>
 
-          {/* Contact Info */}
-          <div>
-            <h3 className="text-white font-bold mb-6 relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-12 after:h-1 after:bg-secondary">
+            <h3 className="text-white font-bold mt-8 mb-4 relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-12 after:h-1 after:bg-secondary">
               Contact Info
             </h3>
             <ul className="space-y-4 text-sm">
@@ -77,11 +106,16 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Bottom Bar */}
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
           <p>&copy; {currentYear} CMPI. All rights reserved.</p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap justify-center gap-6">
             <Link to="/privacy-policy" className="hover:text-primary">Privacy Policy</Link>
             <Link to="/terms-and-conditions" className="hover:text-primary">Terms of Service</Link>
+            <Link to="/cookie-policy" className="hover:text-primary">Cookie Policy</Link>
+            <Link to="/refund-policy" className="hover:text-primary">Refund Policy</Link>
+            <Link to="/disclaimer" className="hover:text-primary">Disclaimer</Link>
+            <Link to="/accessibility" className="hover:text-primary">Accessibility</Link>
             <Link to="/sitemap" className="hover:text-primary">Sitemap</Link>
           </div>
         </div>
