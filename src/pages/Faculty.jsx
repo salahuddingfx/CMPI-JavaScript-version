@@ -10,7 +10,7 @@ const Faculty = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDept, setSelectedDept] = useState('All');
 
-  const faculty = data?.faculty || [];
+  const faculty = useMemo(() => data?.faculty || [], [data?.faculty]);
   const departments = data?.departments || [];
 
   const filteredFaculty = useMemo(() => {
