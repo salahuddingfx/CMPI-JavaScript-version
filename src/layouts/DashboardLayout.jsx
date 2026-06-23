@@ -7,6 +7,8 @@ import SEO from '@/components/SEO';
 import PageTransition from '@/components/PageTransition';
 import { getInitials } from '@/utils/helpers';
 import { AnimatePresence, motion } from 'framer-motion';
+import CookieConsent from '@/components/CookieConsent';
+import VisitTracker from '@/components/VisitTracker';
 
 const sidebarLinks = [
   { name: 'Overview',   path: '/dashboard',          icon: Home },
@@ -105,6 +107,8 @@ const DashboardLayout = () => {
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-500 overflow-hidden">
       <SEO title="Dashboard" />
+      <VisitTracker />
+      <CookieConsent />
 
       {/* ── Desktop Sidebar ──────────────────────────────────────────────── */}
       <aside className="hidden md:flex w-72 bg-white dark:bg-slate-950 border-r border-slate-100 dark:border-slate-800 flex-col transition-colors duration-500 shrink-0">

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Camera, User, Mail, Phone, Hash, Building2, Calendar, Edit3, Save, X, Heart, Award, Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { getInitials } from '@/utils/helpers';
-import { getStudentProfile, updateStudentProfile } from '@/services/api';
+import { getStudentProfile, updateStudentProfile, uploadFile } from '@/services/api';
 import toast from 'react-hot-toast';
 
 const Profile = () => {
@@ -11,6 +11,9 @@ const Profile = () => {
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [avatarSrc, setAvatarSrc] = useState(authUser?.avatar || null);
+  const fileInputRef = useRef(null);
 
   const [form, setForm] = useState({
     name: '',
@@ -72,6 +75,45 @@ const Profile = () => {
     return () => { cancelled = true; };
   }, []);
 
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please select an image file.');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image must be under 5MB.');
+      return;
+    }
+
+    setUploadingAvatar(true);
+    try {
+      const result = await uploadFile(file, 'users');
+      const avatarUrl = result.url;
+
+      await updateStudentProfile({ avatar: avatarUrl });
+
+      setAvatarSrc(avatarUrl);
+
+      if (storedUser) {
+        const updatedUser = { ...storedUser, avatar: avatarUrl };
+        if (localStorage.getItem("cmpi_user")) localStorage.setItem("cmpi_user", JSON.stringify(updatedUser));
+        if (localStorage.getItem("cmpi-user")) localStorage.setItem("cmpi-user", JSON.stringify(updatedUser));
+        window.dispatchEvent(new Event("storage"));
+      }
+
+      toast.success('Avatar updated successfully.');
+    } catch {
+      toast.error('Failed to upload avatar.');
+    } finally {
+      setUploadingAvatar(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
   const handleSave = async () => {
     setSaving(true);
     try {
@@ -92,6 +134,7 @@ const Profile = () => {
           guardian: form.guardian,
           blood_group: form.bloodGroup,
           address: form.address,
+          avatar: avatarSrc,
         };
         if (localStorage.getItem("cmpi_user")) {
           localStorage.setItem("cmpi_user", JSON.stringify(updatedUser));
@@ -145,15 +188,31 @@ const Profile = () => {
       >
         <div className="relative group">
           <div className="w-28 h-28 rounded-3xl overflow-hidden bg-primary flex items-center justify-center shadow-xl shadow-primary/20">
-            {authUser?.avatar ? (
-              <img src={authUser.avatar} alt={form.name} className="w-full h-full object-cover" />
+            {avatarSrc ? (
+              <img src={avatarSrc} alt={form.name} className="w-full h-full object-cover" />
             ) : (
               <span className="text-4xl font-black text-secondary">
                 {getInitials(form.name || 'Student')}
               </span>
             )}
+            {uploadingAvatar && (
+              <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                <Loader2 className="w-6 h-6 text-white animate-spin" />
+              </div>
+            )}
           </div>
-          <button className="absolute inset-0 rounded-3xl bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleAvatarChange}
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploadingAvatar}
+            className="absolute inset-0 rounded-3xl bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0"
+          >
             <Camera className="w-6 h-6 text-white" />
           </button>
         </div>

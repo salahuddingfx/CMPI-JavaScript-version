@@ -4,7 +4,6 @@ import axios from 'axios';
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1',
   headers: {
-    'Content-Type': 'application/json',
     Accept: 'application/json',
   },
   withCredentials: true,
@@ -156,7 +155,6 @@ export async function searchAll(query) {
 
 export async function submitAdmission(formData) {
   const response = await api.post("/admissions", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
     timeout: 30000,
   });
   return response.data;
@@ -206,11 +204,19 @@ export async function uploadFile(file, folder = "others") {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("folder", folder);
-  const response = await api.post("/upload", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const response = await api.post("/upload", formData);
+  return response.data;
+}
+
+// Gallery
+export async function getGalleryAlbums() {
+  const response = await api.get("/gallery-albums");
+  return response.data;
+}
+
+// Cookie consent
+export async function logCookieConsent(type, email) {
+  const response = await api.post("/cookie-consents", { consent_type: type, email });
   return response.data;
 }
 
