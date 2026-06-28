@@ -25,7 +25,7 @@ const navLinks = [
   ]},
   { name: 'About', path: '/about', dropdown: [
     { name: 'About Us', path: '/about' },
-    { name: "Principal's Message", path: '/principal' },
+    { name: "Administration Messages", path: '/principal' },
     { name: 'Faculty Members', path: '/faculty' },
     { divider: true },
     { name: 'Notice Board', path: '/notice-board' },

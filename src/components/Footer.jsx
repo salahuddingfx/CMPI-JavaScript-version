@@ -34,7 +34,7 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3 text-sm">
               <li><Link to="/about" className="hover:text-primary transition-colors">About Us</Link></li>
-              <li><Link to="/principal" className="hover:text-primary transition-colors">Principal's Message</Link></li>
+              <li><Link to="/principal" className="hover:text-primary transition-colors">Administration Messages</Link></li>
               <li><Link to="/faculty" className="hover:text-primary transition-colors">Faculty Members</Link></li>
               <li><Link to="/academics" className="hover:text-primary transition-colors">Academics</Link></li>
               <li><Link to="/admission" className="hover:text-primary transition-colors">Admission</Link></li>
