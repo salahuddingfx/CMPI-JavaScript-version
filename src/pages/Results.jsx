@@ -14,6 +14,7 @@ import { SEM_ORDER } from "@/components/results/ResultHelpers";
 
 export function Results() {
   const [searchMode, setSearchMode] = useState("transcript");
+  const [btebSearchType, setBtebSearchType] = useState("roll");
   const [query, setQuery] = useState("");
   const [result, setResult] = useState(null);
   const [btebResults, setBtebResults] = useState([]);
@@ -39,7 +40,8 @@ export function Results() {
     } else {
       setLoading(true);
       try {
-        const response = await api.get("/bteb-results/search", { params: { roll: key } });
+        const params = btebSearchType === "roll" ? { roll: key } : { center_code: key };
+        const response = await api.get("/bteb-results/search", { params });
         const data = Array.isArray(response.data) ? response.data : (response.data?.data ?? []);
         setBtebResults(data);
       } catch (err) {
@@ -65,7 +67,7 @@ export function Results() {
 
   const modes = [
     { id: "transcript", label: "Student Transcript (ID)" },
-    { id: "bteb", label: "BTEB Board Result (Roll No.)", shortLabel: "Board Result" },
+    { id: "bteb", label: "BTEB Board Result (Roll / Inst.)", shortLabel: "Board Result" },
     { id: "cgpa", label: "CGPA Calculator" },
   ];
 
@@ -77,7 +79,7 @@ export function Results() {
         <SectionHeader
           eyebrow="Results Portal"
           title="Examination Results"
-          description="Search your profile transcript or query live BTEB board results by roll number."
+          description="Search your profile transcript or query live BTEB board results by roll number or institute code."
           align="center"
           className="mb-10"
         />
@@ -108,6 +110,32 @@ export function Results() {
           ))}
         </div>
 
+        {/* BTEB sub-search-type switcher */}
+        {searchMode === "bteb" && (
+          <div className="mx-auto max-w-xl flex justify-center gap-4 mb-4">
+            <label className="flex items-center gap-2 text-sm font-bold cursor-pointer text-muted-foreground hover:text-foreground">
+              <input
+                type="radio"
+                name="btebSearchType"
+                checked={btebSearchType === "roll"}
+                onChange={() => { setBtebSearchType("roll"); setSearched(false); setQuery(""); }}
+                className="accent-primary"
+              />
+              Search by Roll Number
+            </label>
+            <label className="flex items-center gap-2 text-sm font-bold cursor-pointer text-muted-foreground hover:text-foreground">
+              <input
+                type="radio"
+                name="btebSearchType"
+                checked={btebSearchType === "center"}
+                onChange={() => { setBtebSearchType("center"); setSearched(false); setQuery(""); }}
+                className="accent-primary"
+              />
+              Search by Institute Code
+            </label>
+          </div>
+        )}
+
         {/* Search input */}
         {searchMode !== "cgpa" && (
           <div className="mx-auto max-w-xl">
@@ -120,7 +148,9 @@ export function Results() {
                   placeholder={
                     searchMode === "transcript"
                       ? "Enter Student ID (e.g. CMPI-2023-0456)"
-                      : "Enter BTEB Roll Number (e.g. 232345)"
+                      : btebSearchType === "roll"
+                      ? "Enter BTEB Roll Number (e.g. 232345)"
+                      : "Enter Center/Institute Code (e.g. 64082)"
                   }
                   className="pl-10"
                   onKeyDown={(e) => e.key === "Enter" && handleSearch()}
@@ -133,8 +163,10 @@ export function Results() {
             <p className="mt-2 text-xs text-muted-foreground">
               {searchMode === "transcript" ? (
                 <>Try: <span className="font-mono">CMPI-2023-0456</span> or <span className="font-mono">CMPI-2023-0312</span></>
-              ) : (
+              ) : btebSearchType === "roll" ? (
                 <>Enter your 6-digit BTEB board roll number (e.g. 232345)</>
+              ) : (
+                <>Enter BTEB Center/Institute code (e.g. 64082)</>
               )}
             </p>
           </div>
@@ -154,6 +186,7 @@ export function Results() {
             <BtebResultCard
               btebResults={btebResults}
               query={query}
+              searchType={btebSearchType}
               onCalculateCgpa={handleAutoPopulateCalculator}
             />
           ) : (
@@ -161,7 +194,7 @@ export function Results() {
               <Search className="mx-auto h-10 w-10 text-muted-foreground/40 mb-3" />
               <p className="font-bold text-foreground">No board results found</p>
               <p className="mt-1 text-sm text-muted-foreground">
-                No BTEB board records match roll number "{query}". Please check the roll and try again.
+                No BTEB board records match "{query}". Please check and try again.
               </p>
             </div>
           )
