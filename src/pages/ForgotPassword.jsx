@@ -1,18 +1,36 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SEO } from "@/components/SEO";
 import { PageTransition } from "@/components/PageTransition";
 import { SectionHeader } from "@/components/SectionHeader";
+import { api } from "@/services/api";
 
 export function ForgotPassword() {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    try {
+      await api.post("/forgot-password", { email });
+      toast.success("Reset link request processed successfully.");
+      setSubmitted(true);
+    } catch (err) {
+      // Keep UX secure by hiding if account doesn't exist, but show rate limits
+      if (err.response?.status === 429) {
+        toast.error("Too many password reset requests. Please try again in 1 minute.");
+      } else {
+        toast.success("Reset link request processed successfully.");
+        setSubmitted(true);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -54,8 +72,8 @@ export function ForgotPassword() {
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  Send reset link
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Sending..." : "Send reset link"}
                 </Button>
               </div>
             )}
