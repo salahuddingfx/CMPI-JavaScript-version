@@ -1,7 +1,7 @@
 import { RouterProvider } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from 'sonner';
 import router from '@/routes';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
@@ -36,20 +36,7 @@ function App() {
                   fallbackElement={<Loader />}
                 />
               </InstituteDataProvider>
-              <Toaster
-                position="top-right"
-                toastOptions={{
-                  duration: 4000,
-                  style: {
-                    borderRadius: '1rem',
-                    fontWeight: '600',
-                    fontSize: '0.875rem',
-                  },
-                  success: {
-                    iconTheme: { primary: 'var(--color-primary, #1d4ed8)', secondary: '#fff' },
-                  },
-                }}
-              />
+              <Toaster richColors position="top-right" closeButton />
             </ThemeProvider>
           </AuthProvider>
         </HelmetProvider>
