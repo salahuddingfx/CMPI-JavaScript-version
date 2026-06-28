@@ -1,147 +1,231 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Mail, Lock, User, ArrowRight, CheckCircle2 } from 'lucide-react';
-import SEO from '@/components/SEO';
-import PageTransition from '@/components/PageTransition';
-import { useAuth } from '@/contexts/AuthContext';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { SEO } from "@/components/SEO";
+import { PageTransition } from "@/components/PageTransition";
+import { SectionHeader } from "@/components/SectionHeader";
+import { register as apiRegister } from "@/services/api";
 
-const registerSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().min(1, "Email is required").email("Invalid email format"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
+export function Register() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [department, setDepartment] = useState("Computer Science & Technology");
+  const [studentId, setStudentId] = useState("");
+  const [semester, setSemester] = useState("1st");
+  const [session, setSession] = useState("");
+  const [phone, setPhone] = useState("");
+  const [guardian, setGuardian] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("");
+  const [address, setAddress] = useState("");
+  const [admissionDate, setAdmissionDate] = useState("");
 
-const Register = () => {
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: zodResolver(registerSchema)
-  });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-  const onSubmit = (data) => {
-    login({ 
-      name: data.name, 
-      email: data.email, 
-      role: 'New Student',
-      avatar: 'https://i.pravatar.cc/150?u=newuser'
-    });
-    navigate('/dashboard');
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters long.");
+      setLoading(false);
+      return;
+    }
+    if (!/[A-Z]/.test(password)) {
+      toast.error("Password must contain at least one uppercase letter.");
+      setLoading(false);
+      return;
+    }
+    if (!/[a-z]/.test(password)) {
+      toast.error("Password must contain at least one lowercase letter.");
+      setLoading(false);
+      return;
+    }
+    if (!/[0-9]/.test(password)) {
+      toast.error("Password must contain at least one number.");
+      setLoading(false);
+      return;
+    }
+
+    const payload = {
+      name,
+      email,
+      password,
+      department,
+      student_id: studentId,
+      semester,
+      session,
+      phone,
+      guardian,
+      blood_group: bloodGroup || null,
+      address,
+      admission_date: admissionDate || null,
+    };
+
+    try {
+      await apiRegister(payload);
+      toast.success("Registration submitted! Pending admin approval.");
+      setSuccess(true);
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response?.data?.message || "Registration failed. Please make sure email/student ID are unique.");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (success) {
+    return (
+      <PageTransition>
+        <SEO title="Registration Successful" description="Your registration is pending approval." />
+        <section className="container section-pad">
+          <div className="mx-auto max-w-md text-center bg-card border rounded-sm p-8 shadow-sm">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/10 text-green-600 animate-bounce">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold">Registration Successful!</h2>
+            <p className="mt-4 text-sm text-muted-foreground leading-6">
+              Your account has been created and is **pending verification** by the institute administration.
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground leading-6">
+              You can log in now, but features will be locked until an administrator approves your profile status.
+            </p>
+            <div className="mt-6">
+              <Button asChild className="w-full">
+                <Link to="/login">Go to Login</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+      </PageTransition>
+    );
+  }
 
   return (
     <PageTransition>
-      <SEO title="Register" />
-      <div className="min-h-screen flex items-center justify-center py-20 px-4 bg-slate-50 dark:bg-slate-900 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -ml-32 -mt-32" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl -mr-32 -mb-32" />
-
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-2xl w-full bg-white dark:bg-slate-950 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-black/30 p-8 md:p-12 relative z-10 border border-slate-100 dark:border-slate-800 grid grid-cols-1 lg:grid-cols-2 gap-12"
-        >
-          <div className="hidden lg:flex flex-col justify-center">
-            <Link to="/" className="inline-flex items-center gap-2 mb-8 group">
-              <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-secondary font-black text-2xl shadow-lg shadow-primary/20 group-hover:rotate-12 transition-transform">
-                C
-              </div>
-              <span className="font-black text-slate-900 dark:text-white text-2xl tracking-tighter">CMPI</span>
-            </Link>
-            <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-6">Join the Future of Engineering</h2>
-            <div className="space-y-5">
-              {[
-                "Access to exclusive course materials",
-                "Real-time campus notifications",
-                "Direct communication with faculty",
-                "Personalized academic dashboard"
-              ].map((text, i) => (
-                <div key={i} className="flex items-center gap-3 text-slate-600 dark:text-slate-400 font-medium">
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
-                  <span>{text}</span>
-                </div>
-              ))}
-            </div>
-            <div className="mt-12 p-6 bg-slate-50 dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800">
-               <p className="text-sm italic text-slate-500 dark:text-slate-400">"CMPI helped me land my dream job at a top tech firm. The resources here are unparalleled."</p>
-               <div className="mt-4 flex items-center gap-3">
-                  <img src="https://i.pravatar.cc/150?u=10" className="w-10 h-10 rounded-full border-2 border-white dark:border-slate-800 shadow-sm" alt="Student" />
-                  <div>
-                    <p className="text-xs font-bold text-slate-900 dark:text-white">Ariful Islam</p>
-                    <p className="text-[10px] text-slate-400">CSE Graduate, 2024</p>
-                  </div>
-               </div>
-            </div>
-          </div>
-
-          <div>
-            <div className="text-center lg:text-left mb-10">
-              <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Create Account</h1>
-              <p className="text-slate-500 dark:text-slate-400 font-medium">Join our community today</p>
-            </div>
-
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Full Name</label>
-                <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                  <input 
-                    type="text" 
-                    {...register("name")}
-                    className={`w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800 border-transparent border-2 focus:border-primary focus:bg-white dark:focus:bg-slate-700 rounded-2xl outline-none transition-all font-medium text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${errors.name ? 'border-red-500 focus:border-red-500 bg-red-50 dark:bg-red-500/10' : ''}`}
-                    placeholder="John Doe"
-                  />
-                </div>
-                {errors.name && <p className="text-red-500 text-xs font-bold ml-1">{errors.name.message}</p>}
+      <SEO title="Register" description="Register for a CMPI student portal account." />
+      <section className="container section-pad">
+        <div className="mx-auto max-w-2xl">
+          <SectionHeader title="Student Registration" description="Enter your details to create an account. Admin approval is required for activation." align="center" className="mb-8" />
+          
+          <form onSubmit={handleSubmit} className="rounded-sm border bg-card p-6 shadow-sm sm:p-8 space-y-6">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2 col-span-2">
+                <label htmlFor="name" className="text-sm font-semibold">Full Name</label>
+                <Input id="name" placeholder="e.g. Rahim Miah" value={name} onChange={(e) => setName(e.target.value)} required />
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Email Address</label>
-                <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                  <input 
-                    type="email" 
-                    {...register("email")}
-                    className={`w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800 border-transparent border-2 focus:border-primary focus:bg-white dark:focus:bg-slate-700 rounded-2xl outline-none transition-all font-medium text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${errors.email ? 'border-red-500 focus:border-red-500 bg-red-50 dark:bg-red-500/10' : ''}`}
-                    placeholder="name@example.com"
-                  />
-                </div>
-                {errors.email && <p className="text-red-500 text-xs font-bold ml-1">{errors.email.message}</p>}
+                <label htmlFor="email" className="text-sm font-semibold">Email</label>
+                <Input id="email" type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Password</label>
-                <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                  <input 
-                    type="password" 
-                    {...register("password")}
-                    className={`w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800 border-transparent border-2 focus:border-primary focus:bg-white dark:focus:bg-slate-700 rounded-2xl outline-none transition-all font-medium text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${errors.password ? 'border-red-500 focus:border-red-500 bg-red-50 dark:bg-red-500/10' : ''}`}
-                    placeholder="••••••••"
-                  />
-                </div>
-                {errors.password && <p className="text-red-500 text-xs font-bold ml-1">{errors.password.message}</p>}
+                <label htmlFor="password" className="text-sm font-semibold">Password</label>
+                <Input id="password" type="password" placeholder="Min. 8 chars, 1 uppercase, 1 lowercase, 1 number" value={password} onChange={(e) => setPassword(e.target.value)} required />
               </div>
 
-              <button 
-                type="submit" 
-                className="w-full py-4 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/30 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 group mt-4"
-              >
-                Sign Up <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </form>
+              <div className="space-y-2">
+                <label htmlFor="studentId" className="text-sm font-semibold">Student ID / Roll</label>
+                <Input id="studentId" placeholder="e.g. CMPI-2023-0102 (leave blank if not a student)" value={studentId} onChange={(e) => setStudentId(e.target.value)} />
+              </div>
 
-            <p className="text-center lg:text-left mt-8 text-slate-500 dark:text-slate-400 font-medium">
-              Already have an account? <Link to="/login" className="text-primary font-black hover:underline">Sign in</Link>
+              <div className="space-y-2">
+                <label htmlFor="department" className="text-sm font-semibold">Department</label>
+                <select
+                  id="department"
+                  value={department}
+                  onChange={(e) => setDepartment(e.target.value)}
+                  className="flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
+                  <option value="Computer Science & Technology">Computer Science (CST)</option>
+                  <option value="Civil Technology">Civil Technology</option>
+                  <option value="Electrical Technology">Electrical Technology</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="semester" className="text-sm font-semibold">Current Semester</label>
+                <select
+                  id="semester"
+                  value={semester}
+                  onChange={(e) => setSemester(e.target.value)}
+                  className="flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
+                  <option value="1st">1st Semester</option>
+                  <option value="2nd">2nd Semester</option>
+                  <option value="3rd">3rd Semester</option>
+                  <option value="4th">4th Semester</option>
+                  <option value="5th">5th Semester</option>
+                  <option value="6th">6th Semester</option>
+                  <option value="7th">7th Semester</option>
+                  <option value="8th">8th Semester</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="session" className="text-sm font-semibold">Session</label>
+                <Input id="session" placeholder="e.g. 2023-2024" value={session} onChange={(e) => setSession(e.target.value)} required />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="phone" className="text-sm font-semibold">Phone Number</label>
+                <Input id="phone" placeholder="e.g. +880 1700-000000" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="guardian" className="text-sm font-semibold">Guardian Name</label>
+                <Input id="guardian" placeholder="e.g. Karim Miah (Father)" value={guardian} onChange={(e) => setGuardian(e.target.value)} required />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="bloodGroup" className="text-sm font-semibold">Blood Group</label>
+                <select
+                  id="bloodGroup"
+                  value={bloodGroup}
+                  onChange={(e) => setBloodGroup(e.target.value)}
+                  className="flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
+                  <option value="">Select Blood Group...</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="admissionDate" className="text-sm font-semibold">Admission Date</label>
+                <Input id="admissionDate" type="date" value={admissionDate} onChange={(e) => setAdmissionDate(e.target.value)} required />
+              </div>
+
+              <div className="space-y-2 col-span-2">
+                <label htmlFor="address" className="text-sm font-semibold">Residential Address</label>
+                <Input id="address" placeholder="e.g. Cox's Bazar, Bangladesh" value={address} onChange={(e) => setAddress(e.target.value)} required />
+              </div>
+            </div>
+
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Registering..." : "Submit Registration Request"}
+            </Button>
+
+            <p className="text-center text-sm text-muted-foreground">
+              Already have an account? <Link className="text-primary hover:underline" to="/login">Login</Link>
             </p>
-          </div>
-        </motion.div>
-      </div>
+          </form>
+        </div>
+      </section>
     </PageTransition>
   );
-};
-
+}
 export default Register;
