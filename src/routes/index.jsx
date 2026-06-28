@@ -40,6 +40,8 @@ const ClubDetails   = lazy(() => import('@/pages/ClubDetails').then(m => ({ defa
 const Developer     = lazy(() => import('@/pages/Developer').then(m => ({ default: m.Developer })));
 const Principal     = lazy(() => import('@/pages/Principal').then(m => ({ default: m.Principal })));
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword').then(m => ({ default: m.ForgotPassword })));
+const ResetPassword = lazy(() => import('@/pages/ResetPassword').then(m => ({ default: m.ResetPassword })));
+const AcademicCalendar = lazy(() => import('@/pages/AcademicCalendar').then(m => ({ default: m.AcademicCalendar })));
 const NoticeDetails = lazy(() => import('@/pages/NoticeDetails').then(m => ({ default: m.NoticeDetails })));
 const EventDetails  = lazy(() => import('@/pages/EventDetails').then(m => ({ default: m.EventDetails })));
 const BlogDetails   = lazy(() => import('@/pages/BlogDetails').then(m => ({ default: m.BlogDetails })));
@@ -116,6 +118,8 @@ const router = createBrowserRouter([
       { path: 'sitemap',            element: withSuspense(Sitemap) },
       { path: 'developer',          element: withSuspense(Developer) },
       { path: 'forgot-password',    element: withSuspense(ForgotPassword) },
+      { path: 'reset-password',     element: withSuspense(ResetPassword) },
+      { path: 'academic-calendar',  element: withSuspense(AcademicCalendar) },
     ],
   },
   {
