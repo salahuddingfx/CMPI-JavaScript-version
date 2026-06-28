@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, Check } from 'lucide-react';
+import { toast } from "sonner";
 import SEO from '@/components/SEO';
 import PageTransition from '@/components/PageTransition';
 import { useAuth } from '@/contexts/AuthContext';
@@ -41,9 +42,16 @@ const Login = () => {
     } else {
       localStorage.removeItem('cmpi-remember-email');
     }
-    const result = await login(data);
-    if (result.success) {
-      navigate('/dashboard');
+    try {
+      const result = await login(data);
+      if (result.success) {
+        toast.success("Successfully logged in!");
+        navigate('/dashboard');
+      } else {
+        toast.error("Invalid email or password.");
+      }
+    } catch {
+      toast.error("Invalid email or password.");
     }
   };
 
