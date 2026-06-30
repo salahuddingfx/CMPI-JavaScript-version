@@ -140,6 +140,7 @@ const router = createBrowserRouter([
           { path: 'settings',       element: withSuspense(Settings) },
           { path: 'bills',          element: withSuspense(Bills) },
           { path: 'webmail',        element: withSuspense(StudentWebmail) },
+          { path: 'id-card',        element: withSuspense(StudentIdCard) },
         ],
       },
     ],
