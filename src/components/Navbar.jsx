@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useInstituteContext } from '@/contexts/InstituteDataContext';
 import { SearchPanel } from '@/components/features/SearchPanel';
 import { Button } from '@/components/ui/button';
 
@@ -59,6 +60,7 @@ const Navbar = () => {
   const location = useLocation();
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { data } = useInstituteContext();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -473,7 +475,33 @@ const Navbar = () => {
       </AnimatePresence>
 
       {/* Global Search Panel overlay modal */}
-      <SearchPanel isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+      <AnimatePresence>
+        {searchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm pointer-events-auto"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="relative w-full max-w-2xl"
+            >
+              <SearchPanel
+                departments={data?.departments || []}
+                faculty={data?.faculty || []}
+                notices={data?.notices || []}
+                events={data?.events || []}
+                blogs={data?.blogs || []}
+                onOpenChange={setSearchOpen}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
