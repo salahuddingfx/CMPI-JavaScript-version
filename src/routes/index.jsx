@@ -122,6 +122,7 @@ const router = createBrowserRouter([
       { path: 'forgot-password',    element: withSuspense(ForgotPassword) },
       { path: 'reset-password',     element: withSuspense(ResetPassword) },
       { path: 'academic-calendar',  element: withSuspense(AcademicCalendar) },
+      { path: 'verify-student/:studentId', element: withSuspense(VerifyStudent) },
     ],
   },
   {
