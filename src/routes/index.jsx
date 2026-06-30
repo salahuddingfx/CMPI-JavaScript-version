@@ -52,6 +52,8 @@ const PrivacyPolicy = lazy(() => import('@/pages/PrivacyPolicy').then(m => ({ de
 const TermsAndConditions = lazy(() => import('@/pages/TermsAndConditions').then(m => ({ default: m.TermsAndConditions })));
 const CookiePolicy  = lazy(() => import('@/pages/CookiePolicy').then(m => ({ default: m.CookiePolicy })));
 const RefundPolicy  = lazy(() => import('@/pages/RefundPolicy').then(m => ({ default: m.RefundPolicy })));
+const VerifyStudent = lazy(() => import('@/pages/VerifyStudent').then(m => ({ default: m.VerifyStudent })));
+const StudentIdCard = lazy(() => import('@/pages/dashboard/StudentIdCard').then(m => ({ default: m.StudentIdCard })));
 
 // ── Auth Guard ────────────────────────────────────────────────────────────────
 const ProtectedRoute = lazy(() => import('@/components/ProtectedRoute'));
