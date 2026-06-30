@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { getStudentProfile, downloadStudentIdCard } from "@/services/api";
-import LoadingSkeleton from "@/components/LoadingSkeleton";
+import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import {
   Printer,
   RefreshCw,
