@@ -220,3 +220,15 @@ export async function logCookieConsent(type, email) {
   return response.data;
 }
 
+export async function downloadStudentIdCard() {
+  const response = await api.get("/dashboard/id-card/download", {
+    responseType: "blob",
+  });
+  return response.data;
+}
+
+export async function verifyStudent(studentId) {
+  const response = await api.get(`/verify-student/${studentId}`);
+  return response.data;
+}
+
