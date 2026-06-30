@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Youtube, Globe } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -19,12 +19,42 @@ const Footer = () => {
               <p className="text-[9px] uppercase font-bold text-slate-400 dark:text-slate-500 tracking-wider">Cox's Bazar Model Polytechnic Institute</p>
             </div>
           </div>
-          <div className="flex gap-3 text-xs font-bold">
+          <div className="flex flex-wrap items-center gap-4 text-xs font-bold">
+            <div className="flex items-center gap-2">
+              <a 
+                href="https://facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-all"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a 
+                href="https://youtube.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-500 hover:text-red-500 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-all"
+                aria-label="YouTube"
+              >
+                <Youtube className="w-4 h-4" />
+              </a>
+              <a 
+                href="https://cmpi.edu.bd" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-all"
+                aria-label="Web"
+              >
+                <Globe className="w-4 h-4" />
+              </a>
+            </div>
+            
             <a 
               href="https://mail.cmpi.edu.bd" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="px-4 py-2 border rounded-xl hover:border-primary hover:text-primary dark:border-slate-800 transition-colors"
+              className="px-4 py-2 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-primary hover:text-primary hover:bg-slate-105 dark:hover:bg-slate-900 transition-colors"
             >
               Staff Webmail
             </a>
