@@ -18,10 +18,8 @@ export function useAutoLogout({ timeoutMinutes, onLogout, warningMinutes = 5 }) 
   const triggerLogout = useCallback(() => {
     clearTimers();
     // Clear all auth data from localStorage
-    localStorage.removeItem("cmpi-admin-token");
-    localStorage.removeItem("cmpi-admin-user");
-    localStorage.removeItem("cmpi-token");
-    localStorage.removeItem("cmpi-user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("cmpi_user");
     onLogout();
   }, [clearTimers, onLogout]);
 

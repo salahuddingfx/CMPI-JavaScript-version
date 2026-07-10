@@ -5,7 +5,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 const passwordSchema = z.object({
   current: z.string().min(6, 'Required'),

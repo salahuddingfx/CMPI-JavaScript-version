@@ -4,7 +4,7 @@ import { Camera, User, Mail, Phone, Hash, Building2, Calendar, Edit3, Save, X, H
 import { useAuth } from '@/contexts/AuthContext';
 import { getInitials } from '@/utils/helpers';
 import { getStudentProfile, updateStudentProfile, uploadFile } from '@/services/api';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 const Profile = () => {
   const { user: authUser } = useAuth();
