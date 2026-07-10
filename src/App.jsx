@@ -8,6 +8,7 @@ import { ThemeProvider } from '@/contexts/ThemeContext';
 import { InstituteDataProvider } from '@/contexts/InstituteDataContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Loader from '@/components/Loader';
+import { useDevToolsProtector } from '@/hooks/useDevToolsProtector';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +25,7 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  useDevToolsProtector();
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
