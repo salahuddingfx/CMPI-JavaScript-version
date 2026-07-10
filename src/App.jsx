@@ -6,6 +6,7 @@ import router from '@/routes';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { InstituteDataProvider } from '@/contexts/InstituteDataContext';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Loader from '@/components/Loader';
 import { useDevToolsProtector } from '@/hooks/useDevToolsProtector';
@@ -33,10 +34,12 @@ function App() {
           <AuthProvider>
             <ThemeProvider>
               <InstituteDataProvider>
-                <RouterProvider
-                  router={router}
-                  fallbackElement={<Loader />}
-                />
+                <LanguageProvider>
+                  <RouterProvider
+                    router={router}
+                    fallbackElement={<Loader />}
+                  />
+                </LanguageProvider>
               </InstituteDataProvider>
               <Toaster richColors position="top-right" closeButton />
             </ThemeProvider>
