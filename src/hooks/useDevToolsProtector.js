@@ -49,9 +49,25 @@ export function useDevToolsProtector() {
     try {
       originalConsole.clear();
       originalConsole.log(
-        "%c=========================================\n        RESTRICTED AREA\n=========================================\n%c[!] Developer console execution is disabled.",
-        "color: #00ffcc; font-weight: bold; font-family: monospace; font-size: 14px;",
-        "color: #ff3366; font-weight: bold; font-family: monospace; font-size: 12px;"
+        "%c=========================================================\n" +
+          "%c      _____ __  __ _____ _____\n" +
+          "     / ____|  \\/  |  __ \\_   _|\n" +
+          "    | |    | \\  / | |__) || |\n" +
+          "    | |    | |\\/| |  ___/ | |\n" +
+          "    | |____| |  | | |    _| |_\n" +
+          "     \\_____|_|  |_|_|   |_____|\n\n" +
+          "%c    >> COX'S BAZAR MODEL POLYTECHNIC INSTITUTE\n" +
+          "    >> College/Institute Management & Public Information System\n" +
+          "%c=========================================================\n" +
+          "%c[!] RESTRICTED AREA\n" +
+          "%cDeveloper console execution is disabled.\n" +
+          "=========================================================",
+        "color: #00ffcc; font-weight: bold; font-family: monospace;", // border
+        "color: #00ffff; font-weight: bold; font-family: monospace; text-shadow: 0 0 8px rgba(0,255,255,0.6);", // logo
+        "color: #ffffff; font-weight: bold; font-family: monospace; font-size: 12px;", // subtext
+        "color: #00ffcc; font-weight: bold; font-family: monospace;", // border
+        "color: #ff3366; font-weight: bold; font-size: 40px; font-family: sans-serif; text-shadow: 3px 3px 0px #000; padding: 10px 0;", // RESTRICTED AREA
+        "color: #ff3366; font-weight: bold; font-size: 18px; font-family: sans-serif;" // Warning details
       );
     } catch (err) {}
 
